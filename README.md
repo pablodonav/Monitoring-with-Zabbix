@@ -96,4 +96,4 @@ Y finalmente, se ha reiniciado el Apache:
 
 Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
 
-Una vez cofnigurado correctamente, se podrá acceder al sistema mediante las credenciales que por defecto son usuario: "Admin" y contraseña: "zabbix", aunque la contraseña ha sido modificada por seguridad a "admin2".
+Una vez configurado correctamente, se podrá acceder al sistema mediante las credenciales que por defecto son usuario: "Admin" y contraseña: "zabbix", aunque la contraseña ha sido modificada por seguridad a "admin2".
