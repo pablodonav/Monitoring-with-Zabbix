@@ -9,9 +9,12 @@ Direcciones IP:
 - 155.210.71.173
 
 
-# Instalación
+# Instalación del servidor de Zabbix
 
-Para comenzar, se ha procedido a instalar LAMP. 
+En este apartado, se va a proceder a explicar como se ha instalado el servidor de Zabbix. Se va a comenzar por instalar LAMP.
+
+### INSTALACIÓN DE LAMP
+
 Para ello, se ha comenzado con la instalación de Apache en su versión 2.
 
 `sudo apt update` </br>
@@ -39,3 +42,5 @@ Finalmente, se ha procedido a instalar PHP:
 
 `sudo apt install php php-cli php-mysql libapache2-mod-php` </br>
 `sudo service apache2 restart` </br>
+
+### INSTALACIÓN DEL SERVIDOR DE ZABBIX
