@@ -51,3 +51,30 @@ Una vez instalado LAMP, se ha procedido a instalar el servidor de Zabbix:
 `sudo wget https://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+bionic_all.deb` </br>
 `sudo dpkg -i zabbix-release_3.4-1+bionic_all.deb` </br>
 `sudo apt update` </br>
+
+A continuación, se ha procedido a crear e importar la base de datos:
+
+`sudo mysql -u root` </br>
+` > MariaDB [(none)]> create database zabbix character set utf8 collate utf8_bin;` </br>
+` > MariaDB [(none)]> grant all privileges on zabbix.* to zabbix@localhost identified by 'TestZabbix';` </br>
+` > MariaDB [(none)]> quit;` </br>
+
+Se importa la base de datos:
+
+`sudo zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -uzabbix -p zabbix` </br>
+
+Una vez importada, se ha procedido a configurar la Base de Datos de Zabbix. Para ello, se va a editar el siguiente fichero:
+
+`sudo vim /etc/zabbix/zabbix_server.conf`</br>
+
+Donde se añadirán los siguientes datos:
+
+`DBHost=localhost`</br>
+`DBName=zabbix`</br>
+`DBUser=zabbix`</br>
+`DBPassword=TestZabbix`</br>
+
+Y se arrancará el servidor Zabbix:
+
+`sudo service zabbix-server start`
+`sudo update-rc.d zabbix-server enable`
