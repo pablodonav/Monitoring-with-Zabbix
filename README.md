@@ -6,7 +6,7 @@ Direcciones IP:
 
 - 155.210.71.183
 
-- 155.210.71.173
+- 155.210.71.173  -> SERVIDOR ZABBIX
 
 
 # Instalación del servidor de Zabbix
