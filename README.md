@@ -44,3 +44,10 @@ Finalmente, se ha procedido a instalar PHP:
 `sudo service apache2 restart` </br>
 
 ### INSTALACIÓN DEL SERVIDOR DE ZABBIX
+
+Una vez instalado LAMP, se ha procedido a instalar el servidor de Zabbix:
+
+`sudo dpkg -r zabbix-release` </br>
+`sudo wget https://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+bionic_all.deb` </br>
+`sudo dpkg -i zabbix-release_3.4-1+bionic_all.deb` </br>
+`sudo apt update` </br>
