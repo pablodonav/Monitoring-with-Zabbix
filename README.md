@@ -116,5 +116,23 @@ Y, se modificarán las siguientes variables:
 
 Ahora, ya se puede arrancar el agente Zabbix:
 
-`update-rc.d zabbix-agent enable` </br>
-`service zabbix-agent start` </br>
+`sudo update-rc.d zabbix-agent enable` </br>
+`sudo service zabbix-agent start` </br>
+
+### CAMBIO DEL IDIOMA
+
+Para llevar a cabo el cambio de idioma, se ha procedido a instalar el paquete en castellano:
+
+`sudo vim /usr/share/zabbix/include/locales.inc.php` </br>
+
+y se ha modificado el campo 
+
+`'es_ES' => ['name' => _('Spanish (es_ES)'), 'display' => false ],` </br>
+
+por el siguiente:
+
+`'es_ES' => ['name' => _('Spanish (es_ES)'), 'display' => true],` </br>
+
+Finalmente, se ha reiniciado el servicio de apache y se ha comprobado su correcto funcionamiento:
+
+`sudo service apache2 restart` </br>
