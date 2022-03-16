@@ -97,3 +97,19 @@ Y finalmente, se ha reiniciado el Apache:
 Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
 
 Una vez configurado correctamente, se podrá acceder al sistema mediante las credenciales que por defecto son usuario: "Admin" y contraseña: "zabbix", aunque la contraseña ha sido modificada por seguridad a "admin2".
+
+### INSTALACIÓN DEL AGENTE ZABBIX
+
+A continuación, se h aprcedido a instalar y configurar el agente Zabbix ara llevar a cabo nuestra propia gestión del servidor. Para ello:
+
+`sudo apt-get install zabbix-agent` </br>
+
+Y se procederá al editar el siguiente fichero:
+
+`sudo vim /etc/zabbix/zabbix_agentd.conf` </br>
+
+Y, se modificarán las siguientes variables:
+
+`Server=http://155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
+`ServerActive=http://155.210.71.173` </br>
+`Hostname=Zabbix server` </br>
