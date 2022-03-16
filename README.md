@@ -94,4 +94,4 @@ Y finalmente, se ha reiniciado el Apache:
 
 `service apache2 restart` </br>
 
-Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
+Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
