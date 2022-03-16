@@ -76,5 +76,22 @@ Donde se añadirán los siguientes datos:
 
 Y se arrancará el servidor Zabbix:
 
-`sudo service zabbix-server start`
-`sudo update-rc.d zabbix-server enable`
+`sudo service zabbix-server start` </br>
+`sudo update-rc.d zabbix-server enable` </br>
+
+A continuación, se ha configurado PHP. Para ello, se va a proceder a modificar el siguiente fichero:
+
+`sudo vim /etc/php/7.0/apache2/php.ini` </br>
+
+Donde, se han añadido los siguientes campos:
+
+`post_max_size = 16M` </br>
+`max_execution_time = 300` </br>
+`max_input_time = 300` </br>
+`date.timezone = Europe/Madrid` </br>
+
+Y finalmente, se ha reiniciado el Apache:
+
+`service apache2 restart` </br>
+
+Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
