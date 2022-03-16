@@ -113,3 +113,8 @@ Y, se modificarán las siguientes variables:
 `Server=http://155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
 `ServerActive=http://155.210.71.173` </br>
 `Hostname=Zabbix server` </br>
+
+Ahora, ya se puede arrancar el agente Zabbix:
+
+`update-rc.d zabbix-agent enable` </br>
+`service zabbix-agent start` </br>
