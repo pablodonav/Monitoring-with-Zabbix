@@ -8,6 +8,8 @@ Direcciones IP:
 
 - 155.210.71.173  -> SERVIDOR ZABBIX
 
+- 155.210.71.186
+
 
 # Instalación del servidor de Zabbix
 
