@@ -82,8 +82,8 @@ Y se arrancará el servidor Zabbix:
 `sudo update-rc.d zabbix-server enable` </br>
 
 A continuación, se ha configurado PHP. Para ello, se va a proceder a modificar el siguiente fichero: </br>
- Servidor 1: `sudo vim /etc/php/7.0/apache2/php.ini` </br>
- Servidor 2: `sudo vim /etc/php/7.2/apache2/php.ini` </br>
+ - Servidor 1: `sudo vim /etc/php/7.0/apache2/php.ini` </br>
+ - Servidor 2: `sudo vim /etc/php/7.2/apache2/php.ini` </br>
 
 Donde, se han añadido los siguientes campos:
 
@@ -94,7 +94,7 @@ Donde, se han añadido los siguientes campos:
 
 Y finalmente, se ha reiniciado el Apache:
 
-`service apache2 restart` </br>
+`sudo service apache2 restart` </br>
 
 Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
 
@@ -111,10 +111,14 @@ Y se procederá al editar el siguiente fichero:
 `sudo vim /etc/zabbix/zabbix_agentd.conf` </br>
 
 Y, se modificarán las siguientes variables:
-
-`Server=http://155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
-`ServerActive=http://155.210.71.173` </br>
-`Hostname=Zabbix server` </br>
+ - Servidor 1
+   `Server=http://155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=http://155.210.71.173` </br>
+   `Hostname=Zabbix server` </br>
+ - Servidor 2
+   `Server=http://155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=http://155.210.71.186` </br>
+   `Hostname=Zabbix server` </br>
 
 Ahora, ya se puede arrancar el agente Zabbix:
 
