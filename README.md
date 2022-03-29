@@ -6,9 +6,9 @@ Direcciones IP:
 
 - 155.210.71.183
 
-- 155.210.71.173  -> SERVIDOR ZABBIX
+- 155.210.71.173  -> SERVIDOR 1 ZABBIX
 
-- 155.210.71.186  -> SERVIDOR ZABBIX
+- 155.210.71.186  -> SERVIDOR 2 ZABBIX
 
 
 # Instalación del servidor de Zabbix
@@ -34,7 +34,7 @@ Para ello, se ha comenzado con la instalación de Apache en su versión 2.
  
  Del formulario que aparece, debe realizarse las siguientes operaciones: </br>
   > 1. En el primer paso nos preguntará por la contraseña de “root” para MariaDB, pulsaremos la tecla enter ya que no hay contraseña definida. </br>
-  > 2. El siguiente paso nos preguntará si queremos asignar una contraseña para el usuario “root”. Es recomendable usar contraseña. </br>
+  > 2. El siguiente paso nos preguntará si queremos asignar una contraseña para el usuario “root”. Es recomendable usar contraseña. (Servidor 1 sin contraseña y            Servidor 2 con contraseña root). </br>
   > 3. El siguiente paso nos preguntará si queremos eliminar usuario anónimo, aquí indicaremos que Sí queremos borrar los datos. </br>
   > 4. El siguiente paso nos preguntará si queremos desactivar que el usuario “root” se conecte remotamente, aquí indicaremos que Sí queremos desactivar acceso remoto para usuario “root”. </br>
   > 5. El siguiente paso nos preguntará si queremos eliminar la base de datos “test”, aquí indicaremos que Sí queremos borrar las base de datos “test”. </br>
