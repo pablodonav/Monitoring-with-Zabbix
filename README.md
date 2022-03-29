@@ -111,11 +111,13 @@ Y se procederá al editar el siguiente fichero:
 `sudo vim /etc/zabbix/zabbix_agentd.conf` </br>
 
 Y, se modificarán las siguientes variables:
- - Servidor 1
+
+ - Servidor 1 </br>
    `Server=http://155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
    `ServerActive=http://155.210.71.173` </br>
    `Hostname=Zabbix server` </br>
- - Servidor 2
+   
+ - Servidor 2 </br>
    `Server=http://155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
    `ServerActive=http://155.210.71.186` </br>
    `Hostname=Zabbix server` </br>
