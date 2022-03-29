@@ -81,9 +81,9 @@ Y se arrancará el servidor Zabbix:
 `sudo service zabbix-server start` </br>
 `sudo update-rc.d zabbix-server enable` </br>
 
-A continuación, se ha configurado PHP. Para ello, se va a proceder a modificar el siguiente fichero:
-
-`sudo vim /etc/php/7.0/apache2/php.ini` </br>
+A continuación, se ha configurado PHP. Para ello, se va a proceder a modificar el siguiente fichero: </br>
+ Servidor 1: `sudo vim /etc/php/7.0/apache2/php.ini` </br>
+ Servidor 2: `sudo vim /etc/php/7.2/apache2/php.ini` </br>
 
 Donde, se han añadido los siguientes campos:
 
