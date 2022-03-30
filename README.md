@@ -113,13 +113,13 @@ Y se procederá al editar el siguiente fichero:
 Y, se modificarán las siguientes variables:
 
  - Servidor 1 </br>
-   `Server=http://155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=http://155.210.71.173` </br>
+   `Server=155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=155.210.71.173` </br>
    `Hostname=Zabbix server` </br>
    
  - Servidor 2 </br>
-   `Server=http://155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=http://155.210.71.186` </br>
+   `Server=155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=155.210.71.186` </br>
    `Hostname=Zabbix server` </br>
 
 Ahora, ya se puede arrancar el agente Zabbix:
