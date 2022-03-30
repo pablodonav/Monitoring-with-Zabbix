@@ -113,13 +113,13 @@ Y se procederá al editar el siguiente fichero:
 **Para los host servidores se modificarán las siguientes variables :**
 
  - Servidor 1 </br>
-   `Server=155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=155.210.71.173` </br>
+   `Server=127.0.0.1, 155.210.71.173, 155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=127.0.0.1, 155.210.71.173, 155.210.71.186` </br>
    `Hostname=Zabbix server 1` </br>
    
  - Servidor 2 </br>
-   `Server=155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=155.210.71.186` </br>
+   `Server=127.0.0.1, 155.210.71.186, 155.210.71.173  #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.173` </br>
    `Hostname=Zabbix server 2` </br>
    
 **Para los host clientes se modificarán las siguientes variables :**
