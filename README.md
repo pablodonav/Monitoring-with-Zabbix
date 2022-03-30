@@ -102,7 +102,7 @@ Una vez configurado correctamente, se podrá acceder al sistema mediante las cre
 
 ### INSTALACIÓN DEL AGENTE ZABBIX
 
-A continuación, se h aprcedido a instalar y configurar el agente Zabbix ara llevar a cabo nuestra propia gestión del servidor. Para ello:
+A continuación, se ha procedido a instalar y configurar el agente Zabbix para llevar a cabo nuestra propia gestión del servidor. Para ello:
 
 `sudo apt-get install zabbix-agent` </br>
 
@@ -110,7 +110,7 @@ Y se procederá al editar el siguiente fichero:
 
 `sudo vim /etc/zabbix/zabbix_agentd.conf` </br>
 
-Y, se modificarán las siguientes variables:
+**Para los host servidores se modificarán las siguientes variables :**
 
  - Servidor 1 </br>
    `Server=155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
@@ -121,11 +121,27 @@ Y, se modificarán las siguientes variables:
    `Server=155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
    `ServerActive=155.210.71.186` </br>
    `Hostname=Zabbix server` </br>
+   
+**Para los host clientes se modificarán las siguientes variables :**
+
+ - Host Cliente 1 </br>
+   `Server=155.210.71.173, 127.0.0.1 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=155.210.71.173, 127.0.0.1` </br>
+   `Hostname=Host 1` </br>
+   
+ - Host Cliente 2 </br>
+   `Server=155.210.71.186, 127.0.0.1 #IP Privada de nuestro servidor Zabbix` </br>
+   `ServerActive=155.210.71.186, 127.0.0.1` </br>
+   `Hostname=Host 2` </br>
 
 Ahora, ya se puede arrancar el agente Zabbix:
 
 `sudo update-rc.d zabbix-agent enable` </br>
 `sudo service zabbix-agent start` </br>
+
+En el caso del servidor tambien se deberá restaurar el apache:
+
+`sudo service apache2 restart` </br>
 
 ### CAMBIO DEL IDIOMA
 
