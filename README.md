@@ -168,21 +168,15 @@ Finalmente, se ha reiniciado el servicio de apache y se ha comprobado su correct
 ---
 
 Asignación de ejercicios:
-- Requisito de Usuario 1: Adnana
-- Requisito de Usuario 2: Pablo
+- Requisito de Usuario 1, 4, 5: Adnana
+- Requisito de Usuario 2, 4, 5: Pablo
 - Requisito de Usuario 3: Diego
-- Requisito de Usuario 4: Diego
-- Requisito de Usuario 5: Pablo
 - Requisito de Usuario 6: Adnana
-- Requisito de Servidor 1: Diego
-- Requisito de Servidor 2: Pablo
-- Requisito de Servidor 3: Adnana
-- Requisito de Servidor 4: Diego
-- Requisito de Servidor 5: Pablo
-- Requisito de Servidor 6: Adnana
+- Requisito de Servidor 1: Pablo
+- Requisito de Servidor 2: Diego
+- Requisito de Servidor 5: Adnana
+- Requisito de Servidor 6: Pablo
 - Requisito de Servidor 7: Diego
-- Requisito de Servidor 8: Pablo
-- Requisito de Servidor 9: Adnana
+- Requisito de Servidor 8: Adnana
+- Requisito de Servidor 9: Pablo
 - Requisito de Servidor 10: Diego
-- Requisito de Restricción 1: Pablo
-- Requisito de Restricción 2: Adnana
