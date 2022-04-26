@@ -168,14 +168,9 @@ Finalmente, se ha reiniciado el servicio de apache y se ha comprobado su correct
 ---
 
 Asignación de ejercicios:
-- Caso de uso 1: Pablo
-- Caso de uso 2: Adnana
-- Caso de uso 3: Diego
-- Caso de uso 4: Pablo
-- Caso de uso 5: Adnana
-- Requisito de Usuario 1: Diego
+- Requisito de Usuario 1: Adnana
 - Requisito de Usuario 2: Pablo
-- Requisito de Usuario 3: Adnana
+- Requisito de Usuario 3: Diego
 - Requisito de Usuario 4: Diego
 - Requisito de Usuario 5: Pablo
 - Requisito de Usuario 6: Adnana
