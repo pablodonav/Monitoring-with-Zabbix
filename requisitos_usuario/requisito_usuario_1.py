@@ -16,6 +16,7 @@ import fileinput
 from cmath import e
 import socket
 import re
+import traceback
 from colorama import Fore, Style
 import contextlib
 
@@ -89,7 +90,7 @@ def modificacionFicheroLocalIPs() -> None:
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP + ", " + sys.argv[1])
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Cliente")
 
-    # Arranca el agente Zabbix
+    # Arranca el agente Zabbix con los cambios del fichero de configuración
     cmd = "sudo update-rc.d zabbix-agent enable"
     codeExit1 = os.system(cmd)
 
@@ -108,7 +109,7 @@ def add_client():
     mensaje_recibido = s.recv(MSG_SIZE)
     s.close()
 
-    print(Fore.GREEN, "\nMsg recibido: " + str(mensaje_recibido))
+    print(Fore.GREEN, "\nMsg received: " + str(mensaje_recibido))
 
 def main():
     try:
@@ -118,13 +119,13 @@ def main():
         add_client()
 
     except NumberOfParametersError:
-        print(Fore.RED, "Error: el número de parámetros introducidos no es correcto.")
+        print(Fore.RED, "Error: the entered number of parameters is not correct.")
     except ParameterFormatError:
-        print(Fore.RED, "Error: el parámetro introducido debe ser una dirección IP válida.")
+        print(Fore.RED, "Error: the entered parameter should be a valid ip direction.")
     except ZabbixAgentError:
-        print(Fore.RED, "Error: no se ha podido arrancar el agente Zabbix.")
+        print(Fore.RED, "Error: Failed to start Zabbix agent.")
     except Exception as  e:
-        print(Fore.RED, "Error: no se ha podido realizar la conexión con el servidor.")
+        print(Fore.RED, "Error: The connection to the server could not be made.")
 
 if __name__ == "__main__":
     main()
