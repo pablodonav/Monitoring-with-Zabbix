@@ -131,12 +131,12 @@ Y se procederá al editar el siguiente fichero:
 **Para los host clientes se modificarán las siguientes variables :**
    
  - Host Cliente 1 </br>
-   `Server=155.210.71.186, 127.0.0.1, 155.210.71.183, 155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.183, 155.210.71.173` </br>
+   `Server=127.0.0.1, 155.210.71.183, 155.210.71.186, 155.210.71.164` </br>
+   `ServerActive=127.0.0.1, 155.210.71.183, 155.210.71.186, 155.210.71.164` </br>
    `Hostname=Host 1` </br>
    
   - Host Cliente 2 </br>
-   `Server=155.210.71.173, 127.0.0.1, 155.210.71.95, 155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
+   `Server=127.0.0.1, 155.210.71.95, 155.210.71.186, 155.210.71.164` </br>
    `ServerActive=127.0.0.1, 155.210.71.173, 155.210.71.95, 155.210.71.186` </br>
    `Hostname=Host 2` </br>
 
