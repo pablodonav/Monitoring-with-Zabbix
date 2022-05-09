@@ -124,8 +124,8 @@ Y se procederá al editar el siguiente fichero:
    `Hostname=Zabbix server 1` </br>
    
  - Servidor 2 </br>
-   `Server=127.0.0.1, 155.210.71.186, 155.210.71.173  #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.173` </br>
+   `Server=127.0.0.1, 155.210.71.186, 155.210.71.164, 155.210.71.183, 155.210.71.95` </br>
+   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.164, 155.210.71.183, 155.210.71.95` </br>
    `Hostname=Zabbix server 2` </br>
    
 **Para los host clientes se modificarán las siguientes variables :**
