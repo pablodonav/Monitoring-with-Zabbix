@@ -1,8 +1,15 @@
-# Requisito de usuario Nº3
-# Diego Hernández Cortés
+#!/usr/bin/python
+# requisito_usuario_3.py
+#
+# Pablo Doñate, Adnana Dragut y Diego Hernández
+#   Requisito de Usuario 3
+#   Designación: Fin de la ejecución del cliente
+#   Objetivo: Finalización de la ejecución por parte del cliente si no existe ningún
+#       servidor en ejecución.
+#   Descripción: El cliente finalizará su ejecución en el caso de no existir ningún servidor
+#       en el sistema en ejecución. 
+
 import os
-
-
 
 class bcolors:
     HEADER = '\033[95m'
@@ -14,7 +21,6 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-
 
 class NoExisteConexionServidor1(Exception):
     """Excepcion que actua cuando no se detecta conexión con el servidor 1"""
@@ -36,9 +42,6 @@ def encontrarIPsServidores():
     ips[1] = ipsServidores[16:30]
     return ips
 
-    
-
-
 # Función Ping
 def ping(ip):
     response = os.system('ping -c 2 ' + ip+ ' > dev.txt')
@@ -48,7 +51,7 @@ def ping(ip):
     else:
         return False
 
-#Comprueba conexión con los servidores
+# Comprueba conexión con los servidores
 def comprobarConexion(vector):
     if ping(vector[0]):
         print(bcolors.OKBLUE + "EXISTE CONEXION CON EL SERVIDOR 1" + bcolors.ENDC)
@@ -62,7 +65,6 @@ def comprobarConexion(vector):
         os.system('sudo systemctl stop zabbix-agent > /dev/null')
         raise NoExisteConexionServidor2
         
-
 # Función main
 def main() -> int:
     try:
@@ -79,5 +81,4 @@ def main() -> int:
 
 # Comienzo de la ejecución
 if __name__ == '__main__':
-
     main()
