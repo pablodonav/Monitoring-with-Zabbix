@@ -6,8 +6,8 @@
 #   Designacion: Alta de nuevo servidor sin argumentos 
 #   Objetivo: Dar de alta a un nuevo servidor sin el paso de ningun tipo de argumentos. 
 #   Descripcion: El alta de un servidor al sistema se realizara de forma automatica y
-#       transparente una vez ejecutados los scripts correspondientes sin el paso
-#       de ningun argumento.  
+#                transparente una vez ejecutados los scripts correspondientes sin el paso
+#                de ningun argumento.  
 
 import sys
 import os

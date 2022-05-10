@@ -5,12 +5,10 @@
 # Requisito de Servidor 2
 # Designación: Alta de nuevo servidor con la dirección IP de un servidor
 # Objetivo: Dar de alta a un nuevo servidor con el paso de la dirección IP de un
-# servidor del sistema.
+#           servidor del sistema.
 # Descripción: El servidor se unirá al sistema automáticamente una vez ejecutados los
-# scripts correspondientes pasándole como argumento la dirección IP de
-# algún servidor del sistema que esté en ejecución.
-
-
+#              scripts correspondientes pasándole como argumento la dirección IP de
+#              algún servidor del sistema que esté en ejecución.
 
 import sys
 import os
@@ -40,7 +38,7 @@ class ParameterFormatError(Exception):
 
 
 def instalacionLamp():
-    sudo_password = 'cliente2admin2'
+    sudo_password = 'server2admin2'
 
     commandUpdate = 'apt update'.split()
     commandPurge = 'apt-get purge apache2 zabbix-server-mysql zabbix-frontend-php mariadb-server mariadb-client'.split()
@@ -109,12 +107,33 @@ def modificacionFicheroLocalIPs():
     if codeExit1 != 0 or codeExit2 != 0:
         raise ZabbixAgentError
 
+def comprobarParametros():
+    if len(sys.argv) != 2:
+        raise NumberOfParametersError
+        masdf
+
+    aa=re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",sys.argv[1])
+    if not aa:
+        raise ParameterFormatError
 
 # Función main
 def main():
-    instalacionLamp()
-    instalacionAgenteZabbix()
-    modificacionFicheroLocalIPs()
+    try:
+        comprobarParametros()
+        instalacionLamp()
+        instalacionAgenteZabbix()
+        modificacionFicheroLocalIPs()
+        add_client()
+
+    except NumberOfParametersError:
+        print(Fore.RED, "Error: el número de parámetros introducidos no es correcto.")
+    except ParameterFormatError:
+        print(Fore.RED, "Error: el parámetro introducido debe ser una dirección IP válida.")
+    except ZabbixAgentError:
+        print(Fore.RED, "Error: no se ha podido arrancar el agente Zabbix.")
+    except Exception as  e:
+        print(Fore.RED, "Error: no se ha podido realizar la conexión con el servidor.")
+
 
 # Comienzo de la ejecución
 if __name__ == "__main__":

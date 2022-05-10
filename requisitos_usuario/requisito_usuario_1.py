@@ -6,8 +6,8 @@
 #   Designación: Alta de nuevo cliente sin argumentos
 #   Objetivo: Dar de alta a un nuevo usuario sin el paso de ningún tipo de argumentos. 
 #   Descripción: El alta de un cliente al sistema se realizará de forma automática y
-#       transparente una vez ejecutados los scripts correspondientes sin el paso
-#       de ningún argumento.
+#                transparente una vez ejecutados los scripts correspondientes sin el paso
+#                de ningún argumento.
 
 import sys
 import os

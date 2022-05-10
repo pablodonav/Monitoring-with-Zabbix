@@ -5,16 +5,16 @@
 #   Requisito de Servidor 5
 #   Designación: Información de Monitorización.
 #   Objetivo: Monitorización de un conjunto de aspectos relevantes de cada uno de los
-#       clientes asignados al servidor.
+#             clientes asignados al servidor.
 #   Descripción: El servidor monitorizará la siguiente información de cada uno de los
-#       clientes:
-#           1. Ancho de banda usado en la subida.
-#           2. Sistema Operativo en el cliente e información del nodo.
-#           3. Usuarios dados de alta en el sistema.
-#           4. Información de la CPU.
-#           5. Información de la memoria.
-#           6. Información sobre los dispositivos de almacenamiento.
-#           7. Información de la tarjeta de red.
+#                clientes:
+#                   1. Ancho de banda usado en la subida.
+#                   2. Sistema Operativo en el cliente e información del nodo.
+#                   3. Usuarios dados de alta en el sistema.
+#                   4. Información de la CPU.
+#                   5. Información de la memoria.
+#                   6. Información sobre los dispositivos de almacenamiento.
+#                   7. Información de la tarjeta de red.
 
 import socket
 import threading

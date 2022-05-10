@@ -5,9 +5,9 @@
 #   Requisito de Usuario 3
 #   Designación: Fin de la ejecución del cliente
 #   Objetivo: Finalización de la ejecución por parte del cliente si no existe ningún
-#       servidor en ejecución.
+#             servidor en ejecución.
 #   Descripción: El cliente finalizará su ejecución en el caso de no existir ningún servidor
-#       en el sistema en ejecución. 
+#                en el sistema en ejecución. 
 
 import os
 
