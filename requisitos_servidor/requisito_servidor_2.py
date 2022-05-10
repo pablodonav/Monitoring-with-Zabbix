@@ -38,13 +38,6 @@ class ParameterFormatError(Exception):
     pass
 
 
-def comprobarParametros() -> None:
-    if len(sys.argv) != 2:
-        raise NumberOfParametersError
-
-    aa=re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",sys.argv[1])
-    if not aa:
-        raise ParameterFormatError
 
 def instalacionLamp():
     sudo_password = 'cliente2admin2'
