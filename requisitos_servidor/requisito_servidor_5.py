@@ -45,6 +45,7 @@ def getServerMonitorizedHosts():
     )
     return hosts
 
+# Subrutina que se encarga de obtener el id de la interfaz de un host
 def getHostInterfaceId(hostid):
     interfaceId = zapi.hostinterface.get(
         output="interfaceid",
@@ -52,25 +53,30 @@ def getHostInterfaceId(hostid):
     )
     return interfaceId
 
+# Subrutina que se encarga de crear el item para monitorizar el ancho de banda
+#   usado en la subida
 def creacionItemAnchoBandaUsadoEnSubida(hostid, interfaceid):
     itemId = zapi.item.create(
-        name="Bandwidth used on the upload",
-        key_="net.if.in[eth0]",
-        hostid=[hostid],
-        type="0",
-        value_type="3",
-        interfaceid=[interfaceid],
+        name= "Bandwidth used on the upload",
+        key_= "net.if.total[eth0]",
+        hostid= 10289,
+        type= 0,
+        value_type= 3,
+        interfaceid= 38,
         tags=[{
             "tag": "Bandwith usage"
         }],
-        delay="30s"
-    )
+        delay= "5m"
+    );
     return itemId
 
 # Programa principal
 def main():
     hostId = getServerMonitorizedHosts()[0]["hostid"]
     interfaceId = getHostInterfaceId(hostId)[0]["interfaceid"]
+
+    print(hostId)
+    print(interfaceId)
 
     print(creacionItemAnchoBandaUsadoEnSubida(hostId, interfaceId))
 
