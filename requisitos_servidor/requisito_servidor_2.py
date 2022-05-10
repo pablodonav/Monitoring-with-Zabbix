@@ -110,7 +110,6 @@ def modificacionFicheroLocalIPs():
 def comprobarParametros():
     if len(sys.argv) != 2:
         raise NumberOfParametersError
-        masdf
 
     aa=re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",sys.argv[1])
     if not aa:
