@@ -9,6 +9,7 @@
 #                transparente una vez ejecutados los scripts correspondientes sin el paso
 #                de ningun argumento.  
 
+from email.policy import compat32
 import sys
 import os
 import subprocess
@@ -35,12 +36,14 @@ def instalacionLamp():
     commandPurge = 'apt-get purge apache2 zabbix-server-mysql zabbix-frontend-php mariadb-server mariadb-client php'.split()
     commandInstallAp2 = 'apt-get install apache2'.split()
     commandInstallMar = 'apt-get install mariadb-server mariadb-client'.split()
-
-    
-    
+    commandAlterUs = 'mysql -e "ALTER USER \'root\'@\'localhost\' IDENTIFIED BY \'root\';"'.split()
+    commandDel1 = 'mysql -e "DELETE FROM mysql.user WHERE User=\'\';"'.split()
+    commandDel2 = 'mysql -e "DELETE FROM mysql.user WHERE User=\'root\' AND Host NOT IN (\'localhost\', \'127.0.0.1\', \'::1\');"'.split()
+    commandDrop = 'mysql -e "DROP DATABASE IF EXISTS test;"'.split()
+    commandDel3 = 'mysql -e "DELETE FROM mysql.db WHERE Db=\'test\' OR Db=\'test\\_%\';"'.split()
+    commandFlush = 'mysql -e "FLUSH PRIVILEGES;"'.split()
+    commandInsPHP = 'apt install php php-cli php-mysql libapache2-mod-php'
     commandRestAp = 'service apache2 restart'.split()
-    commandDisable = 'a2dismod mpm_event'.split()
-    commandEnable = 'a2enmod php7.2'.split()
 
     with contextlib.redirect_stdout(None):
         p = subprocess.Popen(['sudo', '-l'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
@@ -58,25 +61,75 @@ def instalacionLamp():
 
         insAp2 = subprocess.Popen(['sudo', '-S'] + commandInstallAp2, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
+        insAp2.communicate('S' + '\n')[1]
         insAp2.wait()
         
         insMar = subprocess.Popen(['sudo', '-S'] + commandInstallMar, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
+        insMar.communicate('S' + '\n')[1]
         insMar.wait()
-        
-        
 
-        dis = subprocess.Popen(['sudo', '-S'] + commandDisable, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+        altUs = subprocess.Popen(['sudo', '-S'] + commandAlterUs, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
-        dis.wait()
+        altUs.wait()
 
-        en = subprocess.Popen(['sudo', '-S'] + commandEnable, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+        del1 = subprocess.Popen(['sudo', '-S'] + commandDel1, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
-        en.wait()
+        del1.wait()
+
+        del2 = subprocess.Popen(['sudo', '-S'] + commandDel2, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        del2.wait()
+
+        drop = subprocess.Popen(['sudo', '-S'] + commandDrop, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        drop.wait()
+
+        del3 = subprocess.Popen(['sudo', '-S'] + commandDel3, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        del3.wait()
+
+        flush = subprocess.Popen(['sudo', '-S'] + commandFlush, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        flush.wait()
+
+        insPhp = subprocess.Popen(['sudo', '-S'] + commandInsPHP, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        insPhp.communicate('S' + '\n')[1]
+        insPhp.wait()
 
         rest = subprocess.Popen(['sudo', '-S'] + commandRestAp, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
         rest.wait()
+
+def instalacionServidorZabbix():
+    command1 = 'dpkg -r zabbix-release'.split()
+    command2 = 'wget https://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+bionic_all.deb'.split()
+    command3 = 'dpkg -i zabbix-release_3.4-1+bionic_all.deb'.split()
+
+    command4 = 'apt update'.split()
+    commandIns = 'apt install zabbix-server-mysql zabbix-frontend-php'.split()
+        
+    com1 = subprocess.Popen(['sudo', '-S'] + command1, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    com1.wait()
+
+    com2 = subprocess.Popen(['sudo', '-S'] + command2, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    com2.wait()
+
+    com3 = subprocess.Popen(['sudo', '-S'] + command3, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    com3.wait()
+
+    com4 = subprocess.Popen(['sudo', '-S'] + command4, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    com4.wait()
+
+    com5 = subprocess.Popen(['sudo', '-S'] + commandIns, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    com5.communicate('S' + '\n')[1]
+    com5.wait()
 
 def instalacionAgenteZabbix():
     sudo_password = 'cliente2admin2'
@@ -147,6 +200,7 @@ def add_client():
 # Función main
 def main():
     instalacionLamp()
+    instalacionServidorZabbix()
     instalacionAgenteZabbix()
     modificacionFicheroLocalIPs()
 
