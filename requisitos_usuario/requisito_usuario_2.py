@@ -5,10 +5,10 @@
 #   Requisito de Usuario 2
 #   Designación: Alta de nuevo cliente pasando la IP de un servidor
 #   Objetivo: Dar de alta a un nuevo usuario con el paso de la dirección 
-#       IP de un servidor del sistema. 
+#             IP de un servidor del sistema. 
 #   Descripción: El cliente se unirá al sistema automáticamente una vez ejecutados los
-#       scripts correspondientes pasándole como argumento la dirección IP de
-#       algún servidor del sistema que esté en ejecución. 
+#                scripts correspondientes pasándole como argumento la dirección IP de
+#                algún servidor del sistema que esté en ejecución. 
 
 import sys
 import os

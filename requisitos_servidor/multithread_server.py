@@ -108,7 +108,7 @@ class ClientThread(object):
         templateId = ClientThread.getTemplateId(TEMPLATE_NAME)[0]["templateid"]
 
         createdHost = zapi.host.create(
-            host="Host " + parameters,
+            host="Client" + parameters,
             interfaces= [{"type": 1, "main": 1, "useip": 1, "ip": addr[0], "dns": "", "port": 10050}],
             groups= [{"groupid": groupId}],
             templates= [{"templateid": templateId}],

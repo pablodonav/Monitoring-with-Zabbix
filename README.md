@@ -89,8 +89,7 @@ Y se arrancará el servidor Zabbix:
 `sudo update-rc.d zabbix-server enable` </br>
 
 A continuación, se ha configurado PHP. Para ello, se va a proceder a modificar el siguiente fichero: </br>
- - Servidor 1: `sudo vim /etc/php/7.0/apache2/php.ini` </br>
- - Servidor 2: `sudo vim /etc/php/7.2/apache2/php.ini` </br>
+`sudo vim /etc/php/7.2/apache2/php.ini` </br>
 
 Donde, se han añadido los siguientes campos:
 
@@ -103,7 +102,7 @@ Y finalmente, se ha reiniciado el Apache:
 
 `sudo service apache2 restart` </br>
 
-Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección http://155.210.71.173/zabbix/setup.php, donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
+Una vez está funcionando todo correctamente, se ha procedido a configurar Zabbix accediendo a la dirección para el servidor 1 http://155.210.71.164/zabbix/setup.php, y para el servidor 2, http://155.210.71.186/zabbix/setup.php donde habrá que especificar los datos de acceso a la Base de Datos y la IP privada del servidor Zabbix.
 
 Una vez configurado correctamente, se podrá acceder al sistema mediante las credenciales que por defecto son usuario: "Admin" y contraseña: "zabbix", aunque la contraseña ha sido modificada por seguridad a "admin2".
 
@@ -120,24 +119,24 @@ Y se procederá al editar el siguiente fichero:
 **Para los host servidores se modificarán las siguientes variables :**
 
  - Servidor 1 </br>
-   `Server=127.0.0.1, 155.210.71.173, 155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=127.0.0.1, 155.210.71.173, 155.210.71.186` </br>
+   `Server=127.0.0.1, 155.210.71.164, 155.210.71.186, 155.210.71.183, 155.210.71.95` </br>
+   `ServerActive=127.0.0.1, 155.210.71.164, 155.210.71.186, 155.210.71.183, 155.210.71.95` </br>
    `Hostname=Zabbix server 1` </br>
    
  - Servidor 2 </br>
-   `Server=127.0.0.1, 155.210.71.186, 155.210.71.173  #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.173` </br>
+   `Server=127.0.0.1, 155.210.71.186, 155.210.71.164, 155.210.71.183, 155.210.71.95` </br>
+   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.164, 155.210.71.183, 155.210.71.95` </br>
    `Hostname=Zabbix server 2` </br>
    
 **Para los host clientes se modificarán las siguientes variables :**
    
  - Host Cliente 1 </br>
-   `Server=155.210.71.186, 127.0.0.1, 155.210.71.183, 155.210.71.173 #IP Privada de nuestro servidor Zabbix` </br>
-   `ServerActive=127.0.0.1, 155.210.71.186, 155.210.71.183, 155.210.71.173` </br>
+   `Server=127.0.0.1, 155.210.71.183, 155.210.71.186, 155.210.71.164` </br>
+   `ServerActive=127.0.0.1, 155.210.71.183, 155.210.71.186, 155.210.71.164` </br>
    `Hostname=Host 1` </br>
    
   - Host Cliente 2 </br>
-   `Server=155.210.71.173, 127.0.0.1, 155.210.71.95, 155.210.71.186 #IP Privada de nuestro servidor Zabbix` </br>
+   `Server=127.0.0.1, 155.210.71.95, 155.210.71.186, 155.210.71.164` </br>
    `ServerActive=127.0.0.1, 155.210.71.173, 155.210.71.95, 155.210.71.186` </br>
    `Hostname=Host 2` </br>
 

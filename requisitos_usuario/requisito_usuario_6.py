@@ -6,9 +6,9 @@
 #   Designación: Detección de caída del servidor
 #   Objetivo: Dar de alta a un nuevo usuario sin el paso de ningún tipo de argumentos. 
 #   Descripción: Tras la caída de un servidor, el cliente que está siendo monitorizado por
-#        dicho servidor deberá ser capaz de adaptarse al sistema para que de
-#        forma transparente dicho cliente comience a ser monitorizado por otro
-#        servidor en el caso de la existencia de algún servidor en ejecución.
+#                dicho servidor deberá ser capaz de adaptarse al sistema para que de
+#                forma transparente dicho cliente comience a ser monitorizado por otro
+#                servidor en el caso de la existencia de algún servidor en ejecución.
 
 import os
 import fileinput
