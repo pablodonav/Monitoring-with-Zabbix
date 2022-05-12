@@ -77,6 +77,7 @@ def modificacionFicheroLocalIPs() -> None:
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         s.connect(('10.255.255.255', 1))
+        hostName = socket.gethostname()
         IP = s.getsockname()[0]
     except Exception:
         IP = '127.0.0.1'
@@ -85,7 +86,7 @@ def modificacionFicheroLocalIPs() -> None:
 
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Server=127.0.0.1", "Server=127.0.0.1, " + IP + ", " + sys.argv[1])
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP + ", " + sys.argv[1])
-    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Cliente")
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Client " + hostName)
 
     # Arranca el agente Zabbix
     cmd = "sudo update-rc.d zabbix-agent enable"
