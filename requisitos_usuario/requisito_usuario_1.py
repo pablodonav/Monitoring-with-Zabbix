@@ -9,15 +9,11 @@
 #       transparente una vez ejecutados los scripts correspondientes sin el paso
 #       de ningún argumento.
 
-import sys
 import os
 import subprocess
 import fileinput
-from cmath import e
 import socket
-import re
-import traceback
-from colorama import Fore, Style
+from colorama import Fore
 import contextlib
 
 # CONSTANTES
@@ -25,28 +21,10 @@ PORT = 1234
 MSG_SIZE = 1024
 IP_SERVER = "155.210.71.186"
 
-# Clase Excepción creada para notificar que el paso incorrecto de parámetros
-class NumberOfParametersError(Exception):
-    """Excepción que se lanza cuando se detecta un error en los parámetros introducidos"""
-    pass
-
-# Clase Excepción creada para notificar que los parámetros introducidos son incorrectos sintácticamente
-class ParameterFormatError(Exception):
-    """Excepción que se lanza cuando se detecta un error en la sintaxis del parámetro introducido"""
-    pass
-
 # Clase Excepción creada para notificar que el agente zabbix no ha podido ser arrancado
 class ZabbixAgentError(Exception):
     """Excepción que se lanza cuando se detecta un error que impide el arranque del agente Zabbix"""
     pass
-
-def comprobarParametros() -> None:
-    if len(sys.argv) != 2:
-        raise NumberOfParametersError
-
-    aa=re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",sys.argv[1])
-    if not aa:
-        raise ParameterFormatError
 
 def instalacionAgenteZabbix() -> None:
     sudo_password = 'cliente2admin2'
@@ -87,8 +65,8 @@ def modificacionFicheroLocalIPs() -> None:
     finally:
         s.close()
 
-    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Server=127.0.0.1", "Server=127.0.0.1, " + IP + ", " + sys.argv[1])
-    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP + ", " + sys.argv[1])
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Server=127.0.0.1", "Server=127.0.0.1, " + IP + ", " + IP_SERVER)
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP + ", " + IP_SERVER)
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Client " + hostName)
 
     # Arranca el agente Zabbix con los cambios del fichero de configuración
@@ -114,15 +92,10 @@ def add_client():
 
 def main():
     try:
-        comprobarParametros()
         instalacionAgenteZabbix()
         modificacionFicheroLocalIPs()
         add_client()
 
-    except NumberOfParametersError:
-        print(Fore.RED, "Error: the entered number of parameters is not correct.")
-    except ParameterFormatError:
-        print(Fore.RED, "Error: the entered parameter should be a valid ip direction.")
     except ZabbixAgentError:
         print(Fore.RED, "Error: Failed to start Zabbix agent.")
     except Exception as  e:
