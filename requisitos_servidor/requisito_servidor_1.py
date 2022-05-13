@@ -31,7 +31,7 @@ def instalacionLamp():
     sudo_password = 'cliente2admin2'
 
     commandPurgeAp = 'apt-get purge apache2*'.split()
-    commandPurgeMar = 'apt-get purge mariadb*'.split()
+    commandPurgeMar = 'apt-get purge mariadb'.split()
     commandPurgePhp = 'apt-get purge php*'.split()
     commandPurgeZab = 'apt-get purge zabbix*'.split()
 
@@ -270,7 +270,7 @@ def modificacionFicheroLocalIPs():
 
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Server=127.0.0.1", "Server=127.0.0.1, " + IP)
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP)
-    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Zabbix Server")
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Zabbix server")
 
     # Arranca el agente Zabbix
     cmd = "sudo update-rc.d zabbix-agent enable"
