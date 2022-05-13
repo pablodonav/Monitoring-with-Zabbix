@@ -174,11 +174,9 @@ Asignación de ejercicios:
 - Requisito de Usuario 2, 4, 5: Pablo
 - Requisito de Usuario 3: Diego
 - Requisito de Usuario 6: Adnana
-- Requisito de Servidor 1: Pablo
-- Requisito de Servidor 2: Diego
+- Requisito de Servidor 1, 2: Pablo
 - Requisito de Servidor 5: Adnana
-- Requisito de Servidor 6: Pablo
-- Requisito de Servidor 7: Diego
+- Requisito de Servidor 6, 7: Diego
 - Requisito de Servidor 8: Adnana
 - Requisito de Servidor 9: Pablo
 - Requisito de Servidor 10: Diego
