@@ -9,7 +9,6 @@
 #                transparente una vez ejecutados los scripts correspondientes sin el paso
 #                de ningun argumento.  
 
-from email.policy import compat32
 import sys
 import os
 import subprocess
@@ -19,7 +18,6 @@ import socket
 import re
 from colorama import Fore
 import contextlib
-import mysql.connector
 
 PORT = 1234
 MSG_SIZE = 1024
@@ -33,7 +31,11 @@ def instalacionLamp():
     sudo_password = 'cliente2admin2'
 
     commandUpdate = 'apt update'.split()
-    commandPurge = 'apt-get purge apache2 zabbix-server-mysql zabbix-frontend-php mariadb-server mariadb-client php'.split()
+    commandPurge = 'apt-get purge apache2 mariadb-server mariadb-client php zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent'.split()
+    commandAutoRemove = 'apt autoremove'.split()
+    commandRemove1 = 'sudo rm -rf /var/log/zabbix/'.split()
+    commandRemove2 = 'sudo rm -rf /usr/share/doc/zabbix-server-mysql'.split()
+
     commandInstallAp2 = 'apt-get install apache2'.split()
     commandInstallMar = 'apt-get install mariadb-server mariadb-client'.split()
     commandAlterUs = 'mysql -e "ALTER USER \'root\'@\'localhost\' IDENTIFIED BY \'root\';"'.split()
@@ -42,7 +44,7 @@ def instalacionLamp():
     commandDrop = 'mysql -e "DROP DATABASE IF EXISTS test;"'.split()
     commandDel3 = 'mysql -e "DELETE FROM mysql.db WHERE Db=\'test\' OR Db=\'test\\_%\';"'.split()
     commandFlush = 'mysql -e "FLUSH PRIVILEGES;"'.split()
-    commandInsPHP = 'apt install php php-cli php-mysql libapache2-mod-php'
+    commandInsPHP = 'apt install php php-cli php-mysql libapache2-mod-php'.split()
     commandRestAp = 'service apache2 restart'.split()
 
     with contextlib.redirect_stdout(None):
@@ -50,10 +52,24 @@ def instalacionLamp():
             universal_newlines=True)
         p.communicate(sudo_password + '\n')[1]
 
-        purgA = subprocess.Popen(['sudo', '-S'] + commandPurge, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+        purg = subprocess.Popen(['sudo', '-S'] + commandPurge, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
-        purgA.communicate('S' + '\n')[1]
-        purgA.wait()
+        purg.communicate('S' + '\n')[1]
+        purg.wait()
+
+        auto = subprocess.Popen(['sudo', '-S'] + commandAutoRemove, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        auto.communicate('S' + '\n')[1]
+        auto.wait()
+
+        rem1 = subprocess.Popen(['sudo', '-S'] + commandRemove1, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        rem1.wait()
+
+        rem2 = subprocess.Popen(['sudo', '-S'] + commandRemove2, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        rem2.wait()
+
 
         upd = subprocess.Popen(['sudo', '-S'] + commandUpdate, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
@@ -104,12 +120,19 @@ def instalacionLamp():
 
 def instalacionServidorZabbix():
     command1 = 'dpkg -r zabbix-release'.split()
-    command2 = 'wget https://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+bionic_all.deb'.split()
-    command3 = 'dpkg -i zabbix-release_3.4-1+bionic_all.deb'.split()
-
+    command2 = 'wget https://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.4-1+ubuntu20.04_all.deb'.split()
+    command3 = 'dpkg -i zabbix-release_5.4-1+ubuntu20.04_all.deb'.split()
     command4 = 'apt update'.split()
-    commandIns = 'apt install zabbix-server-mysql zabbix-frontend-php'.split()
+    commandIns = 'apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent'.split()
+
+    commandDB1 = 'mysql -u root -proot -e "create database zabbix character set utf8 collate utf8_bin;"'.split()
+    commandDB2 = 'mysql -u root -proot -e "grant all privileges on zabbix.* to zabbix@localhost identified by \'TestZabbix\';"'.split()
+
+    commandStart = 'service zabbix-server start'.split()
+    commandEnab = 'update-rc.d zabbix-server enable'.split()
         
+    commandRestAp = 'service apache2 restart'.split()
+
     com1 = subprocess.Popen(['sudo', '-S'] + command1, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
     com1.wait()
@@ -131,11 +154,50 @@ def instalacionServidorZabbix():
     com5.communicate('S' + '\n')[1]
     com5.wait()
 
+
+    comDB1 = subprocess.Popen(['sudo', '-S'] + commandDB1, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    comDB1.wait()
+
+    comDB2 = subprocess.Popen(['sudo', '-S'] + commandDB2, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    comDB2.wait()
+
+
+    os.system('zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | mysql -uzabbix -pTestZabbix zabbix')
+
+
+    replace_in_file("/etc/zabbix/zabbix_server.conf", "# DBHost=localhost", "DBHost=localhost")
+    replace_in_file("/etc/zabbix/zabbix_server.conf", "# DBPassword=", "DBPassword=TestZabbix")
+
+
+    start = subprocess.Popen(['sudo', '-S'] + commandStart, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    start.wait()
+
+    enab = subprocess.Popen(['sudo', '-S'] + commandEnab, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    enab.wait()
+
+    replace_in_file("/etc/php/7.4/apache2/php.ini", "post_max_size = 8M", "post_max_size = 16M")
+    replace_in_file("/etc/php/7.4/apache2/php.ini", "max_execution_time = 30", "max_execution_time = 300")
+    replace_in_file("/etc/php/7.4/apache2/php.ini", "max_input_time = 60", "max_input_time = 300")
+    replace_in_file("/etc/php/7.4/apache2/php.ini", ";date.timezone =", "date.timezone = Europe/Madrid")
+
+    rest = subprocess.Popen(['sudo', '-S'] + commandRestAp, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+    rest.wait()
+
 def instalacionAgenteZabbix():
     sudo_password = 'cliente2admin2'
 
     commandUninstall = 'apt-get purge zabbix-agent'.split()
     commandInstall = 'apt-get install zabbix-agent'.split()
+
+    commandDis = 'a2dismod mpm_event'.split()
+    commandEn = 'a2enmod php7.4'.split()
+    
+    commandRest = 'systemctl restart apache2'.split()
 
     with contextlib.redirect_stdout(None):
         p = subprocess.Popen(['sudo', '-l'], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
@@ -152,6 +214,19 @@ def instalacionAgenteZabbix():
         ins = subprocess.Popen(['sudo', '-S'] + commandInstall, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
         ins.wait()
+
+        comDis = subprocess.Popen(['sudo', '-S'] + commandDis, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        comDis.wait()
+
+        comEn = subprocess.Popen(['sudo', '-S'] + commandEn, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        comEn.wait()
+
+
+        commRes = subprocess.Popen(['sudo', '-S'] + commandRest, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+            universal_newlines=True)
+        commRes.wait()
 
 def replace_in_file(file_path, search_text, new_text):
     with fileinput.input(file_path, inplace=True) as file:
