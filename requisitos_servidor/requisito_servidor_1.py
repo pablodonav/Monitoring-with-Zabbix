@@ -179,10 +179,10 @@ def instalacionServidorZabbix():
             universal_newlines=True)
     enab.wait()
 
-    replace_in_file("/etc/php/7.4/apache2/php.ini", "post_max_size = 8M", "post_max_size = 16M")
-    replace_in_file("/etc/php/7.4/apache2/php.ini", "max_execution_time = 30", "max_execution_time = 300")
-    replace_in_file("/etc/php/7.4/apache2/php.ini", "max_input_time = 60", "max_input_time = 300")
-    replace_in_file("/etc/php/7.4/apache2/php.ini", ";date.timezone =", "date.timezone = Europe/Madrid")
+    replace_in_file("/etc/php/7.2/apache2/php.ini", "post_max_size = 8M", "post_max_size = 16M")
+    replace_in_file("/etc/php/7.2/apache2/php.ini", "max_execution_time = 30", "max_execution_time = 300")
+    replace_in_file("/etc/php/7.2/apache2/php.ini", "max_input_time = 60", "max_input_time = 300")
+    replace_in_file("/etc/php/7.2/apache2/php.ini", ";date.timezone =", "date.timezone = Europe/Madrid")
 
     rest = subprocess.Popen(['sudo', '-S'] + commandRestAp, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
             universal_newlines=True)
