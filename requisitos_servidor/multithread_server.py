@@ -20,7 +20,7 @@ ZABBIX_SERVER_1 = "http://155.210.71.186/zabbix"
 ZABBIX_SERVER_1_LOGIN = "Admin"
 ZABBIX_SERVER_1_PWD = "admin2"
 GROUP_NAME = "Zabbix servers"
-TEMPLATE_NAME  = "Template OS Linux"
+TEMPLATE_NAME  = "Linux by Zabbix agent"
 
 # Establece conexión con el servidor 2
 zapi = ZabbixAPI(ZABBIX_SERVER_1) # Dirección ip del servidor Zabbix
