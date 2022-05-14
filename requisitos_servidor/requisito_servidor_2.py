@@ -303,7 +303,7 @@ def modificacionFicheroLocalIPs():
     if codeExit1 != 0 or codeExit2 != 0:
         raise ZabbixAgentError
         
-def add_cliente()
+def add_cliente():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         s.connect(('10.255.255.255', 1))
@@ -330,10 +330,10 @@ def add_cliente()
     );
 
     if createdHost:
-        conn.send(b"Host added successfully")
+        print("Host added successfully")
         return True
     else:
-        conn.send(b"Couldn't add host")
+        print("Couldn't add host")
         return False
 
 # Obtiene el identificador del grupo cuyo nombre se pasa por parámetro
