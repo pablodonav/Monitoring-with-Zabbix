@@ -10,6 +10,7 @@
 #              scripts correspondientes pasándole como argumento la dirección IP de
 #              algún servidor del sistema que esté en ejecución.
 
+from cgi import print_exception
 import sys
 import os
 import subprocess
@@ -23,10 +24,11 @@ from pyzabbix import ZabbixAPI
 
 PORT = 1234
 MSG_SIZE = 1024
+ZABBIX_SERVER = "http://155.210.71.186/zabbix"
 ZABBIX_SERVER_LOGIN = "Admin"
 ZABBIX_SERVER_PWD = "zabbix"
 GROUP_NAME = "Zabbix servers"
-TEMPLATE_NAME  = "Linux by Zabbix agent"
+TEMPLATE_NAME  = "Template OS Linux"
 
 # Clase Excepcion creada para notificar que el agente zabbix no ha podido ser arrancado
 class ZabbixAgentError(Exception):
@@ -314,7 +316,7 @@ def add_cliente():
         s.close()
 
     # Establece conexión con el servidor
-    zapi = ZabbixAPI(IP) # Dirección ip del servidor Zabbix
+    zapi = ZabbixAPI(ZABBIX_SERVER) # Dirección ip del servidor Zabbix
     zapi.login(ZABBIX_SERVER_LOGIN, ZABBIX_SERVER_PWD)
     print("Connected to Zabbix API Version %s" % zapi.api_version())
 
@@ -323,7 +325,7 @@ def add_cliente():
 
     createdHost = zapi.host.create(
         host="New Client",
-        interfaces= [{"type": 1, "main": 1, "useip": 1, "ip": IP, "dns": "", "port": 10050}],
+        interfaces= [{"type": 1, "main": 1, "useip": 1, "ip": sys.argv[1], "dns": "", "port": 10050}],
         groups= [{"groupid": groupId}],
         templates= [{"templateid": templateId}],
         inventory_mode= 1
@@ -352,6 +354,7 @@ def getGroupId(_groupName, zapi):
 def getTemplateId(_templateName, zapi):
     templateId = zapi.template.get(
         output= "templateid", 
+
         filter= { 
             "host": [_templateName]
         }
@@ -376,6 +379,7 @@ def main():
     except ZabbixAgentError:
         print(Fore.RED, "Error: no se ha podido arrancar el agente Zabbix.")
     except Exception as  e:
+        print_exception()
         print(Fore.RED, "Error: no se ha podido realizar la conexión con el servidor.")
 
 # Comienzo de la ejecución
