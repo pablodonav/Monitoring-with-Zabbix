@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# requisito_de_servidor5.py
+# requisito_de_servidor_5.py
 #
 # Pablo Doñate, Adnana Dragut y Diego Hernández
 #   Requisito de Servidor 5
