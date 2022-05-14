@@ -16,11 +16,8 @@
 #                   6. Información sobre los dispositivos de almacenamiento.
 #                   7. Información de la tarjeta de red.
 
-import socket
-import threading
 from pyzabbix import ZabbixAPI
-from colorama import Fore, Style
-import json
+from colorama import Fore
 
 # CONSTANTES
 PORT = 1234
@@ -28,7 +25,7 @@ HOST = ""
 MSG_SIZE = 1024
 ZABBIX_SERVER_2 = "http://155.210.71.186/zabbix"
 ZABBIX_SERVER_2_LOGIN = "Admin"
-ZABBIX_SERVER_2_PWD = "admin2"
+ZABBIX_SERVER_2_PWD = "zabbix"
 
 # Establece conexión con el servidor 2
 zapi = ZabbixAPI(ZABBIX_SERVER_2) # Dirección ip del servidor Zabbix
@@ -36,7 +33,7 @@ zapi.login(ZABBIX_SERVER_2_LOGIN, ZABBIX_SERVER_2_PWD)
 print("Connected to Zabbix API Version %s" % zapi.api_version())
 
 # Clase Excepción creada para notificar que no se ha podido crear el item BandwithMonitoring
-class ErrorBandwithMonitoring(Exception):
+class ErrorBandwidthMonitoring(Exception):
     """Excepción que se lanza cuando no se ha podido crear el item para monitorizar el ancho de banda"""
     pass
 
@@ -137,7 +134,7 @@ def createItemForClientHostOSInformationMonitoring(_hostId, _interfaceId):
     OSAppId = getOSApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Client host os information",
+        name= "Host OS information",
         key_= "system.sw.os[full]",
         hostid= _hostId,
         type= 0,
@@ -171,7 +168,7 @@ def createItemForUsersInformationMonitoring(_hostId, _interfaceId):
     generalAppId = getGeneralApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Client host users",
+        name= "Host users",
         key_= "system.run[cat /etc/passwd | awk -F ':' '{print $1}']",
         hostid= _hostId,
         type= 0,
@@ -205,7 +202,7 @@ def createItemForCPUMonitoring(_hostId, _interfaceId):
     CPUAppId = getCPUApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Client host cpu utilization percentage",
+        name= "Host cpu utilization percentage",
         key_= "system.cpu.util[all,user,avg5]",
         hostid= _hostId,
         type= 0,
@@ -239,7 +236,7 @@ def createItemForMemoryMonitoring(_hostId, _interfaceId):
     memoryAppId = getMemoryApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Client host memory utilization",
+        name= "Host memory utilization",
         key_= "vm.memory.size[free]",
         hostid= _hostId,
         type= 0,
@@ -273,7 +270,7 @@ def createItemForDiskSpaceMonitoring(_hostId, _interfaceId):
     filesystemsAppId = getFilesystemsApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Client host disk space utilization",
+        name= "Host disk space utilization",
         key_= "vfs.fs.size[/,pused]",
         hostid= _hostId,
         type= 0,
@@ -295,7 +292,7 @@ def createItemForNetworkCardMonitoring(_hostId, _interfaceId):
     networkAppId = getNetworkApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Client host network card information",
+        name= "Host network card information",
         key_= "system.run[lshw -class network]",
         hostid= _hostId,
         type= 0,
@@ -351,12 +348,13 @@ def assignItemsToAllMonitoredHosts():
             else:
                 raise ErrorOSInformationMonitoring    
         else:
-            raise ErrorBandwithMonitoring
+            raise ErrorBandwidthMonitoring
 
 # Programa principal
 def main():
     try:
         assignItemsToAllMonitoredHosts()
+        print(Fore.GREEN, "\nItems have been created successfully.")
     except ErrorNetworkCardMonitoring:
         print(Fore.RED, "\nError: Item for bandwidth monitoring could not be created.")
     except ErrorDiskSpaceMonitoring:
@@ -367,6 +365,10 @@ def main():
         print(Fore.RED, "\nError: Item for cpu monitoring could not be created.")
     except ErrorUsersInformationMonitoring:
         print(Fore.RED, "\nError: Item for users monitoring could not be created.")
+    except ErrorOSInformationMonitoring:
+        print(Fore.RED, "\nError: Item for OS monitoring could not be created.")
+    except ErrorBandwidthMonitoring:
+        print(Fore.RED, "\nError: Item for bandwidth monitoring could not be created.")
 
 if __name__ == "__main__":
     main()
