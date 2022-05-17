@@ -14,10 +14,6 @@ Direcciones IP:
 - 155.210.71.186  -> SERVIDOR 2 ZABBIX
   -  alumno - server2admin2
 
-- 155.210.71.127  -> MÁQUINA DE PRUEBAS
-  - alumno - pruebaadmin2
-
-
 # Instalación del servidor de Zabbix
 
 En este apartado, se va a proceder a explicar como se ha instalado el servidor de Zabbix. Se va a comenzar por instalar LAMP.
