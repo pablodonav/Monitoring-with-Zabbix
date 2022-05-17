@@ -174,4 +174,4 @@ def main():
        "    " + str(recursos[2][0]) + " --> " + str(recursos[2][1]))
 
 if __name__ == "__main__":
-    main()
+    main())
