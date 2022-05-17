@@ -166,6 +166,22 @@ def getServerLoad(_serverName, zapi):
 
     return serverLoad
 
+def removeHost(zapi):
+    hostId = zapi.host.get(
+        output="hostid",
+        filter =  { 'host': "Client eupt-admin2-03"}
+    )
+
+    removedHost = zapi.host.delete(
+        hostId[0]["hostid"]
+    );
+
+    if removedHost:
+        return True
+    else:
+        return False
+
+
 # Programa principal
 def main():
     serverLoad1 = getServerLoad(ZABBIX_SERVER_1_NAME, zapi1)
@@ -189,6 +205,25 @@ def main():
        "    " + str(recursos2[0][0]) + " --> " + str(recursos2[0][1]) + "\n" +
        "    " + str(recursos2[1][0]) + " --> " + str(recursos2[1][1]) + "\n" +
        "    " + str(recursos2[2][0]) + " --> " + str(recursos2[2][1]) + "\n")
+
+    loadServer1 = format((100 - ((float(recursos1[0][1]) + float(recursos1[1][1]) + float(recursos1[2][1])) / 3)),".3f")
+    loadServer2 = format((100 - ((float(recursos2[0][1]) + float(recursos2[1][1]) + float(recursos2[2][1])) / 3)),".3f")
+
+    print("La carga del servidor " + ZABBIX_SERVER_1_NAME + " es " + str(loadServer1) + "%")
+    print("La carga del servidor " + ZABBIX_SERVER_2_NAME + " es " + str(loadServer2) + "%")
+
+    if(loadServer1 > loadServer2):
+        print("La carga del servidor " + ZABBIX_SERVER_1_NAME + " es mayor que la del servidor " + ZABBIX_SERVER_2_NAME)
+        if (removeHost(zapi1)):
+            print ("\n Se ha eliminado correctamente el host Client eupt-admin2-03 del servidor " + ZABBIX_SERVER_1_NAME)
+        else:
+            print("\nNo se ha podido borrar el host Client eupt-admin2-03 del servidor " + ZABBIX_SERVER_1_NAME)
+    else:
+        print("La carga del servidor " + ZABBIX_SERVER_2_NAME + " es mayor que la del servidor " + ZABBIX_SERVER_1_NAME)
+        if (removeHost(zapi2)):
+                print ("\n Se ha eliminado correctamente el host Client eupt-admin2-03 del servidor " + ZABBIX_SERVER_2_NAME)
+        else:
+            print("\nNo se ha podido borrar el host Client eupt-admin2-03 del servidor " + ZABBIX_SERVER_2_NAME)
 
 if __name__ == "__main__":
     main()
