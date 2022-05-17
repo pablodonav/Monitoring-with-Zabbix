@@ -294,6 +294,7 @@ def modificacionFicheroLocalIPs():
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Server=127.0.0.1", "Server=127.0.0.1, " + IP)
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP)
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Cliente")
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "# EnableRemoteCommands=0", "EnableRemoteCommands=1")
 
     # Arranca el agente Zabbix
     cmd = "sudo update-rc.d zabbix-agent enable"
