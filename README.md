@@ -5,10 +5,10 @@ Direcciones IP:
 - 155.210.71.183 -> CLIENTE 1 ZABBIX
   -  alumno - cliente1admin2
 
-- 155.210.71.95 -> CLIENTE 2 ZABBIX (PRUEBA)
+- 155.210.71.95 -> CLIENTE 2 ZABBIX
   -  alumno - cliente2admin2
 
-- 155.210.71.164  -> SERVIDOR 1 ZABBIX (PRUEBAS)
+- 155.210.71.164  -> SERVIDOR 1 ZABBIX
   -  alumno - server1admin2
 
 - 155.210.71.186  -> SERVIDOR 2 ZABBIX
