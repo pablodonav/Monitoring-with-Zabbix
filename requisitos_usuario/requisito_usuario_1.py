@@ -26,6 +26,7 @@ class ZabbixAgentError(Exception):
     """Excepción que se lanza cuando se detecta un error que impide el arranque del agente Zabbix"""
     pass
 
+# Subrutina que se encarga de la instalación del agente Zabbix en un cliente
 def instalacionAgenteZabbix() -> None:
     sudo_password = 'cliente2admin2'
 
@@ -48,12 +49,15 @@ def instalacionAgenteZabbix() -> None:
             universal_newlines=True)
         ins.wait()
 
+# Subrutina que se encarga de reemplazar líneas de un fichero
 def replace_in_file(file_path, search_text, new_text):
     with fileinput.input(file_path, inplace=True) as file:
         for line in file:
             new_line = line.replace(search_text, new_text)
             print(new_line, end='')
-
+            
+# Subrutina que se encarga de modificar del fichero de configuración del agente de Zabbix 
+#   las ips y algún otro parámetro necesario para el correcto funcionamiento del host
 def modificacionFicheroLocalIPs() -> None:
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -68,7 +72,8 @@ def modificacionFicheroLocalIPs() -> None:
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Server=127.0.0.1", "Server=127.0.0.1, " + IP + ", " + IP_SERVER)
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "ServerActive=127.0.0.1", "ServerActive=127.0.0.1, " + IP + ", " + IP_SERVER)
     replace_in_file("/etc/zabbix/zabbix_agentd.conf", "Hostname=Zabbix server", "Hostname=Client " + hostName)
-
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "# EnableRemoteCommands=0", "EnableRemoteCommands=1")
+    
     # Arranca el agente Zabbix con los cambios del fichero de configuración
     cmd = "sudo update-rc.d zabbix-agent enable"
     codeExit1 = os.system(cmd)
@@ -79,7 +84,7 @@ def modificacionFicheroLocalIPs() -> None:
     if codeExit1 != 0 or codeExit2 != 0:
         raise ZabbixAgentError
 
-# Subrutina para añadir cliente al nuevo servidor que le va a monitorizar.
+# Subrutina para añadir un cliente al nuevo servidor que le va a monitorizar.
 def add_client():
     s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -90,6 +95,7 @@ def add_client():
 
     print(Fore.GREEN, "\nMsg received: " + str(mensaje_recibido))
 
+# Programa principal
 def main():
     try:
         instalacionAgenteZabbix()
