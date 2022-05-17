@@ -18,6 +18,8 @@
 
 from pyzabbix import ZabbixAPI
 from colorama import Fore
+import fileinput
+import os
 
 # CONSTANTES
 PORT = 1234
@@ -26,6 +28,11 @@ MSG_SIZE = 1024
 ZABBIX_SERVER_2 = "http://155.210.71.186/zabbix"
 ZABBIX_SERVER_2_LOGIN = "Admin"
 ZABBIX_SERVER_2_PWD = "zabbix"
+
+# Clase Excepción creada para notificar que el agente zabbix no ha podido ser arrancado
+class ZabbixAgentError(Exception):
+    """Excepción que se lanza cuando se detecta un error que impide el arranque del agente Zabbix"""
+    pass
 
 # Establece conexión con el servidor 2
 zapi = ZabbixAPI(ZABBIX_SERVER_2) # Dirección ip del servidor Zabbix
@@ -100,7 +107,7 @@ def createItemForBandwidthMonitoring(_hostId, _interfaceId):
     networkAppId = getNetworkApplicationId(_hostId)
     
     bandwidthItemId = zapi.item.create(
-        name= "Bandwidth used on the upload",
+        name= "Host: Bandwidth used on the upload",
         key_= "net.if.total[eth0]",
         hostid= _hostId,
         type= 0,
@@ -134,7 +141,7 @@ def createItemForClientHostOSInformationMonitoring(_hostId, _interfaceId):
     OSAppId = getOSApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Host OS information",
+        name= "Host: OS information",
         key_= "system.sw.os[full]",
         hostid= _hostId,
         type= 0,
@@ -168,7 +175,7 @@ def createItemForUsersInformationMonitoring(_hostId, _interfaceId):
     generalAppId = getGeneralApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Host users",
+        name= "Host: Users information",
         key_= "system.run[cat /etc/passwd | awk -F ':' '{print $1}']",
         hostid= _hostId,
         type= 0,
@@ -202,8 +209,8 @@ def createItemForCPUMonitoring(_hostId, _interfaceId):
     CPUAppId = getCPUApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Host cpu utilization percentage",
-        key_= "system.cpu.util[all,user,avg5]",
+        name= "Host: CPU utilization percentage",
+        key_= "system.cpu.util[,,avg5]",
         hostid= _hostId,
         type= 0,
         value_type= 0,
@@ -236,14 +243,14 @@ def createItemForMemoryMonitoring(_hostId, _interfaceId):
     memoryAppId = getMemoryApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Host memory utilization",
-        key_= "vm.memory.size[free]",
+        name= "Host: Available memory percentage",
+        key_= "vm.memory.size[pavailable]",
         hostid= _hostId,
         type= 0,
-        value_type= 3,
+        value_type= 4,
         interfaceid= _interfaceId,
         tags=[{
-            "tag": "Client host total free memory"
+            "tag": "Client host available percentage memory"
         }],
         applications=[
             memoryAppId
@@ -270,7 +277,7 @@ def createItemForDiskSpaceMonitoring(_hostId, _interfaceId):
     filesystemsAppId = getFilesystemsApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Host disk space utilization",
+        name= "Host: Disk space utilization",
         key_= "vfs.fs.size[/,pused]",
         hostid= _hostId,
         type= 0,
@@ -292,7 +299,7 @@ def createItemForNetworkCardMonitoring(_hostId, _interfaceId):
     networkAppId = getNetworkApplicationId(_hostId)
 
     itemId = zapi.item.create(
-        name= "Host network card information",
+        name= "Host: Network card information",
         key_= "system.run[lshw -class network]",
         hostid= _hostId,
         type= 0,
@@ -307,6 +314,25 @@ def createItemForNetworkCardMonitoring(_hostId, _interfaceId):
         delay= "1h"
     );
     return itemId
+
+def replace_in_file(file_path, search_text, new_text):
+    with fileinput.input(file_path, inplace=True) as file:
+        for line in file:
+            new_line = line.replace(search_text, new_text)
+            print(new_line, end='')
+
+def enableRemoteComandsOnZabbixAgent():
+    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "# EnableRemoteCommands=0", "EnableRemoteCommands=1")  
+
+    # Arranca el agente Zabbix con los cambios del fichero de configuración
+    cmd = "sudo update-rc.d zabbix-agent enable"
+    codeExit1 = os.system(cmd)
+
+    cmd = "sudo service zabbix-agent restart"
+    codeExit2 = os.system(cmd)
+
+    if codeExit1 != 0 or codeExit2 != 0:
+        raise ZabbixAgentError
 
 def assignItemsToAllMonitoredHosts():
     monitoredHosts = getServerMonitorizedHosts()
