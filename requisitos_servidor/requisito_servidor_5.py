@@ -18,8 +18,6 @@
 
 from pyzabbix import ZabbixAPI
 from colorama import Fore
-import fileinput
-import os
 
 # CONSTANTES
 PORT = 1234
@@ -110,7 +108,7 @@ def createItemForBandwidthMonitoring(_hostId, _interfaceId):
         name= "Host: Bandwidth used on the upload",
         key_= "net.if.total[eth0]",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 3,
         interfaceid= _interfaceId,
         tags=[{
@@ -144,7 +142,7 @@ def createItemForClientHostOSInformationMonitoring(_hostId, _interfaceId):
         name= "Host: OS information",
         key_= "system.sw.os[full]",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 4,
         interfaceid= _interfaceId,
         tags=[{
@@ -178,7 +176,7 @@ def createItemForUsersInformationMonitoring(_hostId, _interfaceId):
         name= "Host: Users information",
         key_= "system.run[cat /etc/passwd | awk -F ':' '{print $1}']",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 4,
         interfaceid= _interfaceId,
         tags=[{
@@ -212,7 +210,7 @@ def createItemForCPUMonitoring(_hostId, _interfaceId):
         name= "Host: CPU utilization percentage",
         key_= "system.cpu.util[,,avg5]",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 0,
         interfaceid= _interfaceId,
         tags=[{
@@ -246,7 +244,7 @@ def createItemForMemoryMonitoring(_hostId, _interfaceId):
         name= "Host: Available memory percentage",
         key_= "vm.memory.size[pavailable]",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 4,
         interfaceid= _interfaceId,
         tags=[{
@@ -280,7 +278,7 @@ def createItemForDiskSpaceMonitoring(_hostId, _interfaceId):
         name= "Host: Disk space utilization",
         key_= "vfs.fs.size[/,pused]",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 0,
         interfaceid= _interfaceId,
         tags=[{
@@ -302,7 +300,7 @@ def createItemForNetworkCardMonitoring(_hostId, _interfaceId):
         name= "Host: Network card information",
         key_= "system.run[lshw -class network]",
         hostid= _hostId,
-        type= 0,
+        type= 7,
         value_type= 4,
         interfaceid= _interfaceId,
         tags=[{
@@ -315,25 +313,7 @@ def createItemForNetworkCardMonitoring(_hostId, _interfaceId):
     );
     return itemId
 
-def replace_in_file(file_path, search_text, new_text):
-    with fileinput.input(file_path, inplace=True) as file:
-        for line in file:
-            new_line = line.replace(search_text, new_text)
-            print(new_line, end='')
-
-def enableRemoteComandsOnZabbixAgent():
-    replace_in_file("/etc/zabbix/zabbix_agentd.conf", "# EnableRemoteCommands=0", "EnableRemoteCommands=1")  
-
-    # Arranca el agente Zabbix con los cambios del fichero de configuración
-    cmd = "sudo update-rc.d zabbix-agent enable"
-    codeExit1 = os.system(cmd)
-
-    cmd = "sudo service zabbix-agent restart"
-    codeExit2 = os.system(cmd)
-
-    if codeExit1 != 0 or codeExit2 != 0:
-        raise ZabbixAgentError
-
+# Subrutina que se encarga de asignar items a todos los hosts monitorizados por el servidor actual
 def assignItemsToAllMonitoredHosts():
     monitoredHosts = getServerMonitorizedHosts()
 
