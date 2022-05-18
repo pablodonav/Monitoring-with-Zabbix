@@ -56,7 +56,7 @@ def ping(ip):
         return True
     else:
         return False
-
+# Subrutina que comprueba la conexión con las IPs encontradas
 def comprobarConexion(vector):
     if ping(vector[0]):
         print(bcolors.OKBLUE + "EXISTE CONEXION CON EL CLIENTE 1" + bcolors.ENDC)
@@ -69,7 +69,7 @@ def comprobarConexion(vector):
     else:
         enviarEmailCliente2()
         raise NoExisteConexionCliente2  
-
+# Subrutina que envia email al administtrados notificando caida del cliente 1
 def enviarEmailCliente1():
     msg = MIMEMultipart()
     message = "Cliente 1 caido!!!"
@@ -88,7 +88,7 @@ def enviarEmailCliente1():
             
     print ("Aviso enviado correctamente a  %s:" % (msg['To']))
 
-
+# Subrutina que envia email al administtrados notificando caida del cliente 2
 def enviarEmailCliente2():
     msg = MIMEMultipart()
     message = "Cliente 2 caido!!!"
@@ -107,6 +107,8 @@ def enviarEmailCliente2():
             
     print ("Aviso enviado correctamente a  %s:" % (msg['To']))
 
+    
+# Subrutina main
 def main() -> int:
     try:
        vectorIPs = encontrarIPsServidores()
