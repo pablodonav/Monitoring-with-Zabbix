@@ -64,7 +64,7 @@ def getServerId(_hostName, zapi):
 # Obtiene items de un host
 def getItems(_hostId, zapi):
     items = zapi.item.get(
-        output= ["lastvalue"],
+        output= ["delay"],
         hostids=_hostId
     )
     return items
@@ -76,7 +76,7 @@ def getTimeOfHostMonitoring(_items):
     days = 0
     
     for item in _items:
-        itemStr = item["lastvalue"]
+        itemStr = item["delay"]
         
         if itemStr[-1] is "s":
             itemStr = itemStr[:-1]
@@ -193,7 +193,7 @@ def main():
     recursos = serverLoad[1]
     loadServer = format((100 - ((float(recursos[0][1]) + float(recursos[1][1]) + float(recursos[2][1])) / 3)),".3f")
     fichero.write
-    fichero.write("\nTiempo empleado para monitorizar "+ ZABBIX_SERVER_NAME + str(serverLoad[0]) + " horas\n")
+    fichero.write("\nTiempo empleado para monitorizar "+ ZABBIX_SERVER_NAME +"--> "+  str(serverLoad[0]) + " horas\n")
     
     fichero.write("\n"+ "Item de monitorización de recursos " + ZABBIX_SERVER_NAME +"\n"
        "    " + str(recursos[0][0]) + " --> " + str(recursos[0][1]) + "\n" +
