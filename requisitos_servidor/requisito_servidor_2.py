@@ -34,14 +34,20 @@ TEMPLATE_NAME  = "Template OS Linux"
 class ZabbixAgentError(Exception):
     """Excepcion que se lanza cuando se detecta un error que impide el arranque del agente Zabbix"""
     pass
+
+# Clase Excepcion creada para notificar que el numero de parámetros es incorrecto.
 class NumberOfParametersError(Exception):
     """Excepción que se lanza cuando se detecta un error en los parámetros introducidos"""
     pass
 
+# Clase Excepcion creada para notificar que el formato de los parámetros es incorrecto.
 class ParameterFormatError(Exception):
     """Excepción que se lanza cuando se detecta un error en la sintaxis del parámetro introducido"""
     pass
 
+# Subrutina que se encarga de comprobar los parámetros.
+#   Para ello, verifica el num. de parámetros y su formato.
+#   Lanzará excepciones si no se cumple alguna condición.
 def comprobarParametros():
     if len(sys.argv) != 2:
         raise NumberOfParametersError
@@ -50,8 +56,10 @@ def comprobarParametros():
     if not aa:
         raise ParameterFormatError
 
+# Subrutina que se encarga de instalar LAMP.
+#   Para ello, instala y configura apache2, mariadb y php.
 def instalacionLamp():
-    sudo_password = 'cliente2admin2'
+    sudo_password = 'server1admin2'
 
     commandPurgeAp = 'apt-get purge apache2*'.split()
     commandPurgeMar = 'apt-get purge mariadb'.split()
@@ -159,6 +167,7 @@ def instalacionLamp():
             universal_newlines=True)
         rest.wait()
 
+# Subrutina encargada de instalar el servidor de zabbix.
 def instalacionServidorZabbix():
     command1 = 'dpkg -r zabbix-release zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent'.split()
     command2 = 'wget https://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+bionic_all.deb'.split()
@@ -229,6 +238,7 @@ def instalacionServidorZabbix():
             universal_newlines=True)
     rest.wait()
 
+# Subrutina encargada de instalar el agente zabbix.
 def instalacionAgenteZabbix():
     sudo_password = 'cliente2admin2'
 
@@ -274,13 +284,15 @@ def instalacionAgenteZabbix():
             universal_newlines=True)
         commResSer.wait()
 
+# Subrutina que se encarga de reemplazar líneas de un fichero
 def replace_in_file(file_path, search_text, new_text):
     with fileinput.input(file_path, inplace=True) as file:
         for line in file:
             new_line = line.replace(search_text, new_text)
             print(new_line, end='')
 
-
+# Subrutina que se encarga de modificar del fichero de configuración del agente de Zabbix 
+#   las ips y algún otro parámetro necesario para el correcto funcionamiento del host.
 def modificacionFicheroLocalIPs():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -306,6 +318,7 @@ def modificacionFicheroLocalIPs():
     if codeExit1 != 0 or codeExit2 != 0:
         raise ZabbixAgentError
         
+# Subrutina que da de alta un nuevo cliente.
 def add_cliente():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -363,7 +376,7 @@ def getTemplateId(_templateName, zapi):
     
     return templateId
     
-# Función main
+# Programa principal
 def main():
     try:
         comprobarParametros()
@@ -383,6 +396,5 @@ def main():
         print_exception()
         print(Fore.RED, "Error: no se ha podido realizar la conexión con el servidor.")
 
-# Comienzo de la ejecución
 if __name__ == "__main__":
     main()

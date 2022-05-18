@@ -166,6 +166,7 @@ def getServerLoad(_serverName, zapi):
 
     return serverLoad
 
+# Subrutina que elimina un host que estaba monitorizando.
 def removeHost(zapi):
     hostId = zapi.host.get(
         output="hostid",
