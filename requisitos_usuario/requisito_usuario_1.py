@@ -84,7 +84,7 @@ def modificacionFicheroLocalIPs() -> None:
     if codeExit1 != 0 or codeExit2 != 0:
         raise ZabbixAgentError
 
-# Subrutina para añadir cliente al nuevo servidor que le va a monitorizar.
+# Subrutina para añadir un cliente al nuevo servidor que le va a monitorizar.
 def add_client():
     s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -95,6 +95,7 @@ def add_client():
 
     print(Fore.GREEN, "\nMsg received: " + str(mensaje_recibido))
 
+# Programa principal
 def main():
     try:
         instalacionAgenteZabbix()
