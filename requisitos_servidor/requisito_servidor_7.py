@@ -97,6 +97,7 @@ def ItemForClientHostOSInformationMonitoring(_hostId, zapi):
     )
 
     return ClientHostOSInformationMonitoring[0]["lastvalue"]
+
 # Subrutina que obtiene la información del item que monitoriza a los usuarios dados
 #   de alta en el sistema
 def ItemForUsersInformationMonitoring(_hostId, zapi):
@@ -182,10 +183,9 @@ def main():
     fichero.write("\nItemForCPUMonitoring --> " + getCPUMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForDiskSpaceMonitoring--> " + ItemForDiskSpaceMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForMemoryMonitoring --> " + ItemForMemoryMonitorin(ZABBIX_SERVER_NAME, zapi)+"\n")
-    # fichero.write("\nItemForUsersInformationMonitoring --> " + ItemForUsersInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForClientHostOSInformationMonitoring --> " +ItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForBandwidthMonitoring --> " + ItemForBandwidthMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\ItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
      
     
 
