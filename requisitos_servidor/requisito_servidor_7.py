@@ -183,7 +183,7 @@ def main():
     fichero.write("\nItemForCPUMonitoring --> " + getCPUMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForDiskSpaceMonitoring--> " + getItemForDiskSpaceMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForMemoryMonitoring --> " + getItemForMemoryMonitorin(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\nItemForClientHostOSInformationMonitoring --> " +get ItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForClientHostOSInformationMonitoring --> " + getItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForBandwidthMonitoring --> " + getItemForBandwidthMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForNetworkCardMonitoring --> " + getItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     
