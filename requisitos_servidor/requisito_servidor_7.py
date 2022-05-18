@@ -97,10 +97,7 @@ def ItemForClientHostOSInformationMonitoring(_hostId, zapi):
     )
 
     return ClientHostOSInformationMonitoring[0]["lastvalue"]
-<<<<<<< HEAD
 
-=======
->>>>>>> b53d6cf1509af94bcef0ca941c02eeb20ac4d62d
 # Subrutina que obtiene la información del item que monitoriza a los usuarios dados
 #   de alta en el sistema
 def ItemForUsersInformationMonitoring(_hostId, zapi):
