@@ -10,6 +10,7 @@
 #               clientes
 
 from pyzabbix import ZabbixAPI
+from datetime import datetime
 
 # Constantes
 PORT = 1234
@@ -63,7 +64,7 @@ def getServerId(_hostName, zapi):
 # Obtiene items de un host
 def getItems(_hostId, zapi):
     items = zapi.item.get(
-        output= ["delay"],
+        output= ["lastvalue"],
         hostids=_hostId
     )
     return items
@@ -75,7 +76,7 @@ def getTimeOfHostMonitoring(_items):
     days = 0
     
     for item in _items:
-        itemStr = item["delay"]
+        itemStr = item["lastvalue"]
         
         if itemStr[-1] is "s":
             itemStr = itemStr[:-1]
@@ -183,9 +184,24 @@ def removeHost(zapi):
 
 
 def main():
-    fichero = open(RUTA_LOG + "Server2.log")
+    fichero = open("Server2.log", "a")
 
+    fichero.write("\n---------------------------------------------\n")
+
+    fichero.write("\n"+datetime.today().strftime('%Y-%m-%d %H:%M:%S')+ "\n")
     serverLoad = getServerLoad(ZABBIX_SERVER_NAME, zapi)
+    recursos = serverLoad[1]
+    loadServer = format((100 - ((float(recursos[0][1]) + float(recursos[1][1]) + float(recursos[2][1])) / 3)),".3f")
+    fichero.write
+    fichero.write("\nTiempo empleado para monitorizar "+ ZABBIX_SERVER_NAME + str(serverLoad[0]) + " horas\n")
+    
+    fichero.write("\n"+ "Item de monitorización de recursos " + ZABBIX_SERVER_NAME +"\n"
+       "    " + str(recursos[0][0]) + " --> " + str(recursos[0][1]) + "\n" +
+       "    " + str(recursos[1][0]) + " --> " + str(recursos[1][1]) + "\n" +
+       "    " + str(recursos[2][0]) + " --> " + str(recursos[2][1]) + "\n")
 
-     print("\nEl tiempo total que le cuesta al servidor " + ZABBIX_SERVER_NAME + 
-        " monitorizar todos los hosts es de " + str(serverLoad[0]) + " horas")
+    fichero.write("\nItem de carga del servidor " + ZABBIX_SERVER_NAME + " es " + str(loadServer) + "%\n")
+
+
+if __name__ == "__main__":
+    main()
