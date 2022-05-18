@@ -23,11 +23,12 @@ import contextlib
 PORT = 1234
 MSG_SIZE = 1024
 
-# Clase para definir 
+# Clase Excepción creada para notificar que el numero de parámetros es incorrecto.
 class NumberOfParametersError(Exception):
     """Excepción que se lanza cuando se detecta un error en los parámetros introducidos"""
     pass
 
+# Clase Excepción creada para notificar que el formato del parámetro es incorrecto.
 class ParameterFormatError(Exception):
     """Excepción que se lanza cuando se detecta un error en la sintaxis del parámetro introducido"""
     pass
@@ -37,6 +38,8 @@ class ZabbixAgentError(Exception):
     """Excepción que se lanza cuando se detecta un error que impide el arranque del agente Zabbix"""
     pass
 
+# Función que comprueba el númeor de parámetros y el formato del parámetro.
+# Lanzará excepciones si no se cumplen ciertas condiciones.
 def comprobarParametros() -> None:
     if len(sys.argv) != 2:
         raise NumberOfParametersError
@@ -45,6 +48,7 @@ def comprobarParametros() -> None:
     if not aa:
         raise ParameterFormatError
 
+# Subrutina encargada de instalar el agente de zabbix.
 def instalacionAgenteZabbix() -> None:
     sudo_password = 'cliente2admin2'
 
@@ -67,12 +71,15 @@ def instalacionAgenteZabbix() -> None:
             universal_newlines=True)
         ins.wait()
 
+# Subrutina que se encarga de reemplazar líneas de un fichero
 def replace_in_file(file_path, search_text, new_text):
     with fileinput.input(file_path, inplace=True) as file:
         for line in file:
             new_line = line.replace(search_text, new_text)
             print(new_line, end='')
 
+# Subrutina que se encarga de modificar del fichero de configuración del agente de Zabbix 
+#   las ips y algún otro parámetro necesario para el correcto funcionamiento del host
 def modificacionFicheroLocalIPs() -> None:
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -111,7 +118,7 @@ def add_client():
 
     print(Fore.GREEN, "\nMsg recibido: " + str(mensaje_recibido))
 
-# Función main
+# Programa principal
 def main():
     try:
         comprobarParametros()
