@@ -22,15 +22,16 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-
+# Clase Excepción creada para notificar que no existe conexión con el servidor 1
 class NoExisteConexionServidor1(Exception):
     """Excepcion que actua cuando no se detecta conexión con el servidor 1"""
     pass
-
+# Clase Excepción creada para notificar que no existe conexión con el servidor 2
 class NoExisteConexionServidor2(Exception):
     """Excepcion que actua cuando no se detecta conexión con el servidor 2"""
     pass
 
+# Subrutina que recorre el fichero de configuración del agente zabbix y encuentra las IPs asociadas
 def encontrarIPsServidores():
     ips = [0,0]
     archivo = open("/etc/zabbix/zabbix_agentd.conf")
