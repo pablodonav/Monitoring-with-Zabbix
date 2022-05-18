@@ -20,7 +20,7 @@ ZABBIX_SERVER_2 = "http://155.210.71.186/zabbix"
 ZABBIX_SERVER_LOGIN = "Admin"
 ZABBIX_SERVER_PWD = "zabbix"
 ZABBIX_SERVER_NAME = "Zabbix server 2"
-RUTA_LOG = "/var/log/zabbix/"
+RUTA_LOG = "/var/log/zabbix/Server2.log"
 
 
 
@@ -184,7 +184,7 @@ def removeHost(zapi):
 
 
 def main():
-    fichero = open("Server2.log", "a")
+    fichero = open(RUTA_LOG, "a")
 
     fichero.write("\n---------------------------------------------\n")
 
