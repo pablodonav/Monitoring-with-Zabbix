@@ -24,7 +24,7 @@ RUTA_LOG = "/var/log/zabbix/Server2.log"
 
 
 
-# Establece conexión con ambos servidores
+# Establece conexión con el servidor
 
 zapi = ZabbixAPI(ZABBIX_SERVER_2) # Dirección ip del servidor Zabbix 2
 zapi.login(ZABBIX_SERVER_LOGIN, ZABBIX_SERVER_PWD)
@@ -69,7 +69,7 @@ def getItems(_hostId, zapi):
     )
     return items
 
-# Obtiene la monitorización del ancho de banda
+# Subrutina que obtiene la monitorización del item de ancho de banda
 def ItemForBandwidthMonitoring(_serverName, zapi):
     serverId = getServerId(_serverName, zapi)[0]["hostid"]
 
@@ -83,6 +83,8 @@ def ItemForBandwidthMonitoring(_serverName, zapi):
 
     return BandwidthMonitoring[0]["lastvalue"]
 
+# Subrutina que se encarga de obtener la información del item que monitoriza la información
+#   completa del sistema operativo de un host monitorizado.
 def ItemForClientHostOSInformationMonitoring(_hostId, zapi):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
@@ -95,7 +97,8 @@ def ItemForClientHostOSInformationMonitoring(_hostId, zapi):
     )
 
     return ClientHostOSInformationMonitoring[0]["lastvalue"]
-
+# Subrutina que obtiene la información del item que monitoriza a los usuarios dados
+#   de alta en el sistema
 def ItemForUsersInformationMonitoring(_hostId, zapi):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
@@ -110,7 +113,7 @@ def ItemForUsersInformationMonitoring(_hostId, zapi):
     return UsersInformationMonitoring[0]["lastvalue"]
     
 
-# Monitoriza CPU
+# Subrutina que obtiene la información del item que monitoriza la CPU
 def getCPUMonitoring(_serverName, zapi):
     serverId = getServerId(_serverName, zapi)[0]["hostid"]
 
@@ -125,7 +128,7 @@ def getCPUMonitoring(_serverName, zapi):
     return CPUMonitoring[0]["lastvalue"]
 
 
-
+# Subrutina que obtiene la información del item que monitoriza la información de la memoria
 def ItemForMemoryMonitorin(_hostId, zapi):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
@@ -139,7 +142,7 @@ def ItemForMemoryMonitorin(_hostId, zapi):
 
     return MemoryMonitoring[0]["lastvalue"]
 
-# Monitoriza el espacio de disco
+# Subrutina que obtiene la información del item que monitoriza los dispositivos de almacenamiento
 def ItemForDiskSpaceMonitoring(_hostId, _interfaceId):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
@@ -153,11 +156,24 @@ def ItemForDiskSpaceMonitoring(_hostId, _interfaceId):
     
     return SpaceMonitoring[0]["lastvalue"]
 
+# Subrutina que obtiene información del item que monitoriza las tarjetas de red
+def ItemForNetworkCardMonitoring(_hostId, _interfaceId):
+    serverId = getServerId(_hostId, zapi)[0]["hostid"]
+
+    NetworkMonitoring = zapi.item.get(
+        output= ["lastvalue"],
+        hostids= serverId,
+        search= {
+            "key_" : "system.run[lshw -class network]",
+        }
+    )
+    
+    return NetworkMonitoring[0]["lastvalue"]
     
 
 
 
-
+# Función main
 def main():
     fichero = open(RUTA_LOG, "a")
 
@@ -169,6 +185,7 @@ def main():
     # fichero.write("\nItemForUsersInformationMonitoring --> " + ItemForUsersInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForClientHostOSInformationMonitoring --> " +ItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForBandwidthMonitoring --> " + ItemForBandwidthMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\ItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
      
     
 
