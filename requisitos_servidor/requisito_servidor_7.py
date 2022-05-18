@@ -188,11 +188,9 @@ def main():
     fichero.write("\nItemForMemoryMonitoring --> " + ItemForMemoryMonitorin(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForClientHostOSInformationMonitoring --> " +ItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
     fichero.write("\nItemForBandwidthMonitoring --> " + ItemForBandwidthMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-<<<<<<< HEAD
     fichero.write("\nItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-=======
     fichero.write("\ItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
->>>>>>> b53d6cf1509af94bcef0ca941c02eeb20ac4d62d
+
      
     
 
