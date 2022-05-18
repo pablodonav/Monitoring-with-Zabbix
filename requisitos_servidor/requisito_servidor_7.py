@@ -70,7 +70,7 @@ def getItems(_hostId, zapi):
     return items
 
 # Subrutina que obtiene la monitorización del item de ancho de banda
-def ItemForBandwidthMonitoring(_serverName, zapi):
+def getItemForBandwidthMonitoring(_serverName, zapi):
     serverId = getServerId(_serverName, zapi)[0]["hostid"]
 
     BandwidthMonitoring = zapi.item.get(
@@ -85,7 +85,7 @@ def ItemForBandwidthMonitoring(_serverName, zapi):
 
 # Subrutina que se encarga de obtener la información del item que monitoriza la información
 #   completa del sistema operativo de un host monitorizado.
-def ItemForClientHostOSInformationMonitoring(_hostId, zapi):
+def getItemForClientHostOSInformationMonitoring(_hostId, zapi):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
     ClientHostOSInformationMonitoring = zapi.item.get(
@@ -100,7 +100,7 @@ def ItemForClientHostOSInformationMonitoring(_hostId, zapi):
 
 # Subrutina que obtiene la información del item que monitoriza a los usuarios dados
 #   de alta en el sistema
-def ItemForUsersInformationMonitoring(_hostId, zapi):
+def getItemForUsersInformationMonitoring(_hostId, zapi):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
     UsersInformationMonitoring = zapi.item.get(
@@ -130,7 +130,7 @@ def getCPUMonitoring(_serverName, zapi):
 
 
 # Subrutina que obtiene la información del item que monitoriza la información de la memoria
-def ItemForMemoryMonitorin(_hostId, zapi):
+def getItemForMemoryMonitorin(_hostId, zapi):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
     MemoryMonitoring = zapi.item.get(
@@ -144,7 +144,7 @@ def ItemForMemoryMonitorin(_hostId, zapi):
     return MemoryMonitoring[0]["lastvalue"]
 
 # Subrutina que obtiene la información del item que monitoriza los dispositivos de almacenamiento
-def ItemForDiskSpaceMonitoring(_hostId, _interfaceId):
+def getItemForDiskSpaceMonitoring(_hostId, _interfaceId):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
     SpaceMonitoring = zapi.item.get(
@@ -158,7 +158,7 @@ def ItemForDiskSpaceMonitoring(_hostId, _interfaceId):
     return SpaceMonitoring[0]["lastvalue"]
 
 # Subrutina que obtiene información del item que monitoriza las tarjetas de red
-def ItemForNetworkCardMonitoring(_hostId, _interfaceId):
+def getItemForNetworkCardMonitoring(_hostId, _interfaceId):
     serverId = getServerId(_hostId, zapi)[0]["hostid"]
 
     NetworkMonitoring = zapi.item.get(
@@ -181,12 +181,12 @@ def main():
     fichero.write("\n---------------------------------------------\n")
     fichero.write("\n"+datetime.today().strftime('%Y-%m-%d %H:%M:%S')+ "\n")   
     fichero.write("\nItemForCPUMonitoring --> " + getCPUMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\nItemForDiskSpaceMonitoring--> " + ItemForDiskSpaceMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\nItemForMemoryMonitoring --> " + ItemForMemoryMonitorin(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\nItemForClientHostOSInformationMonitoring --> " +ItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\nItemForBandwidthMonitoring --> " + ItemForBandwidthMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\nItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
-    fichero.write("\ItemForNetworkCardMonitoring --> " + ItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForDiskSpaceMonitoring--> " + getItemForDiskSpaceMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForMemoryMonitoring --> " + getItemForMemoryMonitorin(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForClientHostOSInformationMonitoring --> " +get ItemForClientHostOSInformationMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForBandwidthMonitoring --> " + getItemForBandwidthMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    fichero.write("\nItemForNetworkCardMonitoring --> " + getItemForNetworkCardMonitoring(ZABBIX_SERVER_NAME, zapi)+"\n")
+    
 
      
     
