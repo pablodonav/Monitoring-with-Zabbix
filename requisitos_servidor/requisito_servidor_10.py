@@ -1,8 +1,19 @@
+#!/usr/bin/python
+# requisito_servidor_10.py
+
+# Pablo Donate, Adnana Dragut y Diego Hernandez
+# Requisito de Servidor 10
+# Designación: Caída del Cliente.
+# Objetivo: Información al administrador de la caída de un cliente.
+# Descripción: El administrador recibirá información en el caso de caída de un cliente
+#              que está monitorizado por un servidor. 
+
 import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 
+# Clase creada para definir colores, que será utilizados para mensajes de consola.
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -14,14 +25,17 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+# Clase Excepción para notificar que no existe conexion con un cliente.
 class NoExisteConexionCliente1(Exception):
     """Excepcion que actua cuando no se detecta conexión con el cliente 1"""
     pass
 
+# Clase Excepción para notificar que no existe conexion con un cliente.
 class NoExisteConexionCliente2(Exception):
     """Excepcion que actua cuando no se detecta conexión con el cliente 2"""
     pass
 
+# Subrutina que encuentra las IPs
 def encontrarIPsServidores():
     ips = [0,0]
     archivo = open("/etc/zabbix/zabbix_agentd.conf")
@@ -64,19 +78,12 @@ def enviarEmailCliente1():
     msg['To'] = "795505@unizar.es"
     msg['Subject'] = "Aviso, caida del cliente 1"
     msg.attach(MIMEText(message, 'plain'))
- 
-            
+   
     server = smtplib.SMTP('smtp.gmail.com: 587')
-            
     server.starttls()
-            
-
-    server.login(msg['From'], password)
-            
-            
-            
+    server.login(msg['From'], password)  
     server.sendmail(msg['From'], msg['To'], msg.as_string())
-            
+           
     server.quit()
             
     print ("Aviso enviado correctamente a  %s:" % (msg['To']))
@@ -90,17 +97,10 @@ def enviarEmailCliente2():
     msg['To'] = "795505@unizar.es"
     msg['Subject'] = "Aviso, caida del cliente 2"
     msg.attach(MIMEText(message, 'plain'))
- 
-            
-    server = smtplib.SMTP('smtp.gmail.com: 587')
-            
+     
+    server = smtplib.SMTP('smtp.gmail.com: 587')       
     server.starttls()
-            
-
-    server.login(msg['From'], password)
-            
-            
-            
+    server.login(msg['From'], password)   
     server.sendmail(msg['From'], msg['To'], msg.as_string())
             
     server.quit()
