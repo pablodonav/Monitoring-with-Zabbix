@@ -4,7 +4,7 @@
 # Pablo Doñate, Adnana Dragut y Diego Hernández
 #   Requisito de Usuario 6
 #   Designación: Detección de caída del servidor
-#   Objetivo: Dar de alta a un nuevo usuario sin el paso de ningún tipo de argumentos. 
+#   Objetivo: Adaptación del cliente a un nuevo servidor en ejecución.
 #   Descripción: Tras la caída de un servidor, el cliente que está siendo monitorizado por
 #                dicho servidor deberá ser capaz de adaptarse al sistema para que de
 #                forma transparente dicho cliente comience a ser monitorizado por otro
@@ -12,6 +12,7 @@
 
 import os
 import fileinput
+from cmath import e
 import socket
 import re
 from colorama import Fore
@@ -103,6 +104,18 @@ def replace_in_file(file_path, search_pattern, new_text):
             new_line = re.sub(rf"{search_pattern}", new_text, line)
             print(new_line, end='')
 
+# Subrutina para añadir cliente al nuevo servidor que le va a monitorizar.
+def add_client(_ipServer):
+
+    s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    s.connect((_ipServer, PORT))
+    s.send(bytes("ADD_CLIENT| " + socket.gethostname(), encoding='utf8'))
+    mensaje_recibido = s.recv(MSG_SIZE)
+    s.close()
+
+    print(Fore.GREEN, "\nMsg recibido: " + str(mensaje_recibido))
+
 # Subrutina que se encarga de asignar un nuevo servidor a un host cliente en el caso en el que su servidor inicial está caído
 def assignAnotherMonitoringServer():
     if (isMonitoringServerDown()):
@@ -110,6 +123,9 @@ def assignAnotherMonitoringServer():
         runningServer = getRunningServer()
 
         if (runningServer):
+            # Crea el host en el nuevo servidor que le va a monitorizar
+            add_client(runningServer)
+
             # Asigna un servidor en ejecución para que monitorice a este cliente
             replace_in_file(ZABBIX_FILE, "^Server=.+", "Server=127.0.0.1, " + hostIP + ", " + runningServer)
             replace_in_file(ZABBIX_FILE, "^ServerActive=.+", "ServerActive=127.0.0.1, " + hostIP + ", " + runningServer)
